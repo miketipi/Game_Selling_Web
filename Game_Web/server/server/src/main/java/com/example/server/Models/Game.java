@@ -17,7 +17,7 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private Integer productId;
+    private Long productId;
     @Column(name = "game_type_id")
     private Integer gameTypeId;
     @Column(name = "game_name")
