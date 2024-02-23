@@ -19,7 +19,7 @@ public class Game {
     @Column(name = "product_id")
     private Long productId;
     @Column(name = "game_type_id")
-    private Integer gameTypeId;
+    private Long gameTypeId;
     @Column(name = "game_name")
     private String gameName;
     @Column (name =  "game_price")
@@ -31,13 +31,13 @@ public class Game {
     @Column (name = "game_status")
     private String gameStatus;
     @Column(name = "platform_id")
-    private Integer platformId;
+    private Long platformId;
     @Column (name = "game_version")
     private String gameVersion;
     @Column (name =  "game_downloaded")
     private Integer gameDownloaded;
     @Column (name = "publisher_id")
-    private Integer publisherId;
+    private Long publisherId;
     @Column (name = "deleted")
     private  boolean deleted = false;
     @Column(name = "created_at")
