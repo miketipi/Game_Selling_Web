@@ -3,6 +3,7 @@ package com.example.server.Controller;
 import com.example.server.Models.User;
 import com.example.server.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-    @GetMapping(value = "/get")
+    @GetMapping(value = "/all")
     @ResponseBody
     List<User> getAllUsers(){
         return userService.getAllUser();
