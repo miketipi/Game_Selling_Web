@@ -10,15 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
+    public static Logger logger = Logger.getLogger("User");
     @Autowired
     private UserService userService;
     @GetMapping(value = "/all")
     @ResponseBody
     List<User> getAllUsers(){
+        logger.info("Get all Users");
         return userService.getAllUser();
     }
 }

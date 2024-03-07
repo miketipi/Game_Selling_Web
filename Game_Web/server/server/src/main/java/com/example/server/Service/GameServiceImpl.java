@@ -20,4 +20,16 @@ public class GameServiceImpl implements GameService {
     public Optional<Game> getGameById(Long id){
         return gameRepository.findById(id);
     }
+    @Override
+    public List<Game> getAllGameByGameType(Long id){
+        return gameRepository.getGamesGameType(id);
+    }
+    @Override
+    public List<Game> getGameByPlatform(Long id){
+        return gameRepository.getGameByPlatform(id);
+    }
+    @Override
+    public List<Game> getGameByPublisher(Long id){
+        return  gameRepository.getGamesByPublisher(id);
+    }
 }

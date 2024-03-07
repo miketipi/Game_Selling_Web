@@ -10,4 +10,8 @@ import java.util.Optional;
 public interface GameService {
     List<Game> getAllGame();
     Optional<Game> getGameById(Long id);
+
+    List<Game> getAllGameByGameType(Long id);
+    List<Game> getGameByPlatform(Long id);
+    List<Game> getGameByPublisher(Long id);
 }

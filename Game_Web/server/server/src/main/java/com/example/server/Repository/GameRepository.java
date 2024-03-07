@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -18,4 +19,13 @@ public interface GameRepository  extends JpaRepository <Game,Long> {
     String getPublisherName(@Param("id") Long id);
     @Query(value = "SELECT game_type_name from game_type where game_type.id = :id", nativeQuery = true)
     String getGameTypeName(@Param("id") Long id);
+
+    @Query(value = "select *  \n" + "from game \n" + "where game.game_type_id = :id", nativeQuery = true)
+    List<Game> getGamesGameType(@Param("id") Long id);
+
+    @Query(value = "select  * \n" + "from game \n" + "where game.publisher_id = :publisher_id", nativeQuery = true)
+    List<Game> getGamesByPublisher(@Param("publisher_id") Long publisher_id);
+
+    @Query(value = "select  * \n" + "from game \n" + "where game.platform_id = :id", nativeQuery = true)
+    List<Game> getGameByPlatform(@Param("id") Long id);
 }
