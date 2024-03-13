@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,12 +35,12 @@ public interface GameRepository  extends JpaRepository <Game,Long> {
     @Modifying
     @Transactional
     @Query(value = "insert into game (game_type_id, game_name, game_price, game_image, game_rating, game_status, platform_id, game_version, game_downloaded, publisher_id) values (:gameTypeId, :gameName, :gamePrice, :gameImage, :gameRating, :gameStatus, :platformId, :gameVersion, :gameDownloaded, :publisherId)", nativeQuery = true)
-    void insertGame(@Param("gameTypeId") Long gameTypeId, @Param("gameName") String gameName, @Param("gamePrice") Long gamePrice, @Param("gameImage") String gameImage, @Param("gameRating") Float gameRating, @Param("gameStatus") String gameStatus, @Param("platformId") Long platformId,@Param("gameVersion") String gameVersion, @Param("gameDownloaded") Integer gameDownloaded, @Param("publisherId") Long publisherId );
+    void insertGame(@Param("gameTypeId") Long gameTypeId, @Param("gameName") String gameName, @Param("gamePrice") BigDecimal gamePrice, @Param("gameImage") String gameImage, @Param("gameRating") Float gameRating, @Param("gameStatus") String gameStatus, @Param("platformId") Long platformId,@Param("gameVersion") String gameVersion, @Param("gameDownloaded") Integer gameDownloaded, @Param("publisherId") Long publisherId );
 
     @Modifying
     @Transactional
-    @Query(value = "update game \n" + "set game_type_id = :gameTypeId, game_name = :gameName, game_price = :gamePrice, game_image = :gameImage, game_rating = :gameRating, game_status = :gameStatus, platform_id = :platformId, game_version = :gameVersion, game_downloaded = :gameDownloaded, publisher_id = publisherId \n" + "where product_id = :id", nativeQuery = true)
-    void updateGameById(@Param("gameTypeId") Long gameTypeId, @Param("gameName") String gameName, @Param("gamePrice") Long gamePrice, @Param("gameImage") String gameImage, @Param("gameRating") Float gameRating, @Param("gameStatus") String gameStatus, @Param("platformId") Long platformId,@Param("gameVersion") String gameVersion, @Param("gameDownloaded") Integer gameDownloaded, @Param("publisherId") Long publisherId, @Param("id") Long id );
+    @Query(value = "update game \n" + "set game_type_id = :gameTypeId, game_name = :gameName, game_price = :gamePrice, game_image = :gameImage, game_rating = :gameRating, game_status = :gameStatus, platform_id = :platformId, game_version = :gameVersion, game_downloaded = :gameDownloaded, publisher_id = :publisherId \n" + "where product_id = :productId", nativeQuery = true)
+    void updateGameById(@Param("gameTypeId") Long gameTypeId, @Param("gameName") String gameName, @Param("gamePrice") BigDecimal gamePrice, @Param("gameImage") String gameImage, @Param("gameRating") Float gameRating, @Param("gameStatus") String gameStatus, @Param("platformId") Long platformId, @Param("gameVersion") String gameVersion, @Param("gameDownloaded") Integer gameDownloaded, @Param("publisherId") Long publisherId, @Param("productId") Long productId );
 
 //    @Modifying
 //    @Transactional

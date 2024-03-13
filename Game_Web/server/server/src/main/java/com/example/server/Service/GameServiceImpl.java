@@ -5,6 +5,7 @@ import com.example.server.Repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,12 +35,12 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void insertGame(Long gameTypeId, String gameName, Long gamePrice, String gameImage, Float gameRating, String gameStatus, Long platformId, String gameVersion, Integer gameDownloaded, Long publisherId) {
+    public void insertGame(Long gameTypeId, String gameName, BigDecimal gamePrice, String gameImage, Float gameRating, String gameStatus, Long platformId, String gameVersion, Integer gameDownloaded, Long publisherId) {
         gameRepository.insertGame(gameTypeId, gameName,gamePrice,gameImage,gameRating,gameStatus, platformId,gameVersion, gameDownloaded,publisherId);
     }
 
     @Override
-    public void updateGame(Long gameTypeId, String gameName, Long gamePrice, String gameImage, Float gameRating, String gameStatus, Long platformId, String gameVersion, Integer gameDownloaded, Long publisherId, Long id) {
-gameRepository.updateGameById(gameTypeId, gameName,gamePrice,gameImage,gameRating,gameStatus, platformId,gameVersion, gameDownloaded,publisherId, id);
+    public void updateGame(Long gameTypeId, String gameName, BigDecimal gamePrice, String gameImage, Float gameRating, String gameStatus, Long platformId, String gameVersion, Integer gameDownloaded, Long publisherId, Long productId) {
+gameRepository.updateGameById(gameTypeId, gameName,gamePrice,gameImage,gameRating,gameStatus, platformId,gameVersion, gameDownloaded,publisherId, productId);
     }
 }

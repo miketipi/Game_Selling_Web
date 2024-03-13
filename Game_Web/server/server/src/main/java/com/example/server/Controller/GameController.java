@@ -1,9 +1,9 @@
 package com.example.server.Controller;
 
+import com.example.server.DTO.InsertGameDTO;
+import com.example.server.DTO.ModifyGameDTO;
 import com.example.server.Models.Game;
-import com.example.server.Models.User;
 import com.example.server.Service.GameService;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +52,15 @@ public class GameController {
         return gameService.getGameByPublisher(id);
     }
 
-    @PostMapping()
-    void insertGame(@RequestParam Long gameTypeId, @RequestParam )
+    @PostMapping(value = "/insert")
+    void insertGame(@RequestBody InsertGameDTO insertGameDTO){
+        logger.info("Dang them vao co so du lieu doi tuong game moi ");
+        gameService.insertGame(insertGameDTO.getGameTypeId(), insertGameDTO.getGameName(), insertGameDTO.getGamePrice(),insertGameDTO.getGameImage(),insertGameDTO.getGameRating(),insertGameDTO.getGameStatus(),insertGameDTO.getPlatformId(),insertGameDTO.getGameVersion(),insertGameDTO.getGameDownloaded(),insertGameDTO.getPublisherId());
+    };
+
+    @PostMapping(value = "/update")
+    void updateGame(@RequestBody ModifyGameDTO modifyGameDTO){
+        logger.info("Dang update game voi gameId la : " + modifyGameDTO.getProductId());
+        gameService.updateGame(modifyGameDTO.getGameTypeId(), modifyGameDTO.getGameName(), modifyGameDTO.getGamePrice(), modifyGameDTO.getGameImage(), modifyGameDTO.getGameRating(), modifyGameDTO.getGameStatus(), modifyGameDTO.getPlatformId(), modifyGameDTO.getGameVersion(), modifyGameDTO.getGameDownloaded(), modifyGameDTO.getPublisherId(), modifyGameDTO.getProductId());
+    }
 }
