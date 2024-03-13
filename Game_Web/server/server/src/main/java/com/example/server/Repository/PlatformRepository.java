@@ -12,4 +12,6 @@ public interface PlatformRepository extends JpaRepository<Platform, Long> {
     List<Platform> getAllPlatform();
     @Query(value = "insert into platform (platform_name) values :platform_name", nativeQuery = true)
     void addNewPlatform(@Param("platform_name") String platform_name);
+    @Query(value = "SELECT platform_name from platform where platform.id = :id", nativeQuery = true)
+    String getPlatformName(@Param("id") Long id);
 }

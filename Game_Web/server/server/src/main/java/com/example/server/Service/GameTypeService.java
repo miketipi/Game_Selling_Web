@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface GameTypeService {
     List<GameType> getAllGameType();
-    Optional<List<Game>> getAllGameByType(Long id);
+//    Optional<List<Game>> getAllGameByType(Long id);
+    void updateGameType(Long id, String name);
 }

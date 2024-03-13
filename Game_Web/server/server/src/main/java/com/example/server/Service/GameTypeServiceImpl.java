@@ -18,8 +18,12 @@ public class GameTypeServiceImpl implements GameTypeService {
     public List<GameType> getAllGameType(){
         return gameTypeRepository.getAllGameType();
     }
+//    @Override
+//    public Optional<List<Game>> getAllGameByType(Long id){
+//        return gameTypeRepository.getGamesByGameType(id);
+//    }
     @Override
-    public Optional<List<Game>> getAllGameByType(Long id){
-        return gameTypeRepository.getGamesByGameType(id);
+    public void updateGameType(Long id, String name){
+        gameTypeRepository.updateGameType(id, name);
     }
 }

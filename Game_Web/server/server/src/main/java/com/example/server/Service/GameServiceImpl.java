@@ -32,4 +32,14 @@ public class GameServiceImpl implements GameService {
     public List<Game> getGameByPublisher(Long id){
         return  gameRepository.getGamesByPublisher(id);
     }
+
+    @Override
+    public void insertGame(Long gameTypeId, String gameName, Long gamePrice, String gameImage, Float gameRating, String gameStatus, Long platformId, String gameVersion, Integer gameDownloaded, Long publisherId) {
+        gameRepository.insertGame(gameTypeId, gameName,gamePrice,gameImage,gameRating,gameStatus, platformId,gameVersion, gameDownloaded,publisherId);
+    }
+
+    @Override
+    public void updateGame(Long gameTypeId, String gameName, Long gamePrice, String gameImage, Float gameRating, String gameStatus, Long platformId, String gameVersion, Integer gameDownloaded, Long publisherId, Long id) {
+gameRepository.updateGameById(gameTypeId, gameName,gamePrice,gameImage,gameRating,gameStatus, platformId,gameVersion, gameDownloaded,publisherId, id);
+    }
 }

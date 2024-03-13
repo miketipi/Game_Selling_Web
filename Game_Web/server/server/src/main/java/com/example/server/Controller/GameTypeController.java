@@ -4,13 +4,12 @@ import com.example.server.Models.Game;
 import com.example.server.Models.GameType;
 import com.example.server.Repository.GameTypeRepository;
 import com.example.server.Service.GameTypeService;
+import jakarta.transaction.Transactional;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +27,14 @@ public class GameTypeController {
     List<GameType> getAllGameType(){
         logger.info("Lay Tat Ca Loai Game");
         return  gameTypeService.getAllGameType();
+    }
+
+
+    @Transactional
+    @PostMapping(value = "/{id}")
+    void updateGametype(@PathVariable("id") Long id, String name){
+logger.info("Update thong tin loai game voi id : " + id);
+gameTypeService.updateGameType(id,name);
     }
 
 //    @GetMapping(value = "/gameoftype/{id}")

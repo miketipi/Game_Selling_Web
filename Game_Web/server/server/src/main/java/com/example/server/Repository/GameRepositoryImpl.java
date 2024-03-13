@@ -5,5 +5,5 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class GameRepositoryImpl {
+public class GameRepositoryImpl implements GameRepository {
 }
