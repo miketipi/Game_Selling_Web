@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface UserService {
     List<User> getAllUser();
     Optional<User> getUserById(Long id);
-//    Optional<User> getUserByName();
+    Optional<User> findUserByName(String name);
 }

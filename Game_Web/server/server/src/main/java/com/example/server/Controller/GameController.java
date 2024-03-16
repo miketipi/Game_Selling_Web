@@ -5,6 +5,9 @@ import com.example.server.DTO.ModifyGameDTO;
 import com.example.server.Models.Game;
 import com.example.server.Service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +23,22 @@ public class GameController {
     private GameService gameService;
     @GetMapping(value = "/all")
     @ResponseBody
-    List<Game> getAll(){
+    List<Game> getAll() throws Exception{
         logger.info("Lay Tat Ca Game");
-        return gameService.getAllGame();
+        try {
+            return gameService.getAllGame();
+        }catch (DisabledException e) {
+            System.out.println("Tai khoan da bi vo hieu hoa");
+            throw e;
+        }
+        catch (BadCredentialsException b) {
+            System.out.println("Ten nguoi dung hoac mat khau chua chinh xac");
+            throw b;
+        }
+        catch (AuthenticationException e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
     }
 
     @GetMapping(value = "/{id}")
