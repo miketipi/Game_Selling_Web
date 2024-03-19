@@ -1,7 +1,9 @@
 package com.example.server.Configuration;
 
+import com.example.server.Models.CustomUserDetails;
 import com.example.server.Repository.UserRepository;
 import com.example.server.Service.CustomUserDetailsService;
+import com.example.server.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,15 +32,17 @@ public class AppConfiguration {
 
     @Autowired
     public CustomUserDetailsService customUserDetailsService;
-//    @Bean
-//    public UserDetailsService userDetailsService(){
-//        return (username -> (UserDetails) userRepository.findByName(username));
-//    }
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return (username -> (UserDetails) userRepository.findByName(username).get());
+    }
+    @Autowired
+    public UserService userService;
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder());
-        authenticationProvider.setUserDetailsService(customUserDetailsService);
+        authenticationProvider.setUserDetailsService(userService);
         return authenticationProvider;
     }
 

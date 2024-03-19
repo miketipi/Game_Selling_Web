@@ -23,7 +23,7 @@ public class GameController {
     private GameService gameService;
     @GetMapping(value = "/all")
     @ResponseBody
-    List<Game> getAll() throws Exception{
+    List<Game> getAll() {
         logger.info("Lay Tat Ca Game");
         try {
             return gameService.getAllGame();

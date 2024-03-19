@@ -1,8 +1,11 @@
 package com.example.server.Service;
 
+import com.example.server.Models.CustomUserDetails;
 import com.example.server.Models.User;
 import com.example.server.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,5 +28,11 @@ public class UserServiceImpl implements UserService {
 
     public Optional<User> findUserByName(String name) {
         return userRepository.findByName(name);
+    }
+
+    @Override
+    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User a = userRepository.findByName(username).get();
+        return new CustomUserDetails(a);
     }
 }
