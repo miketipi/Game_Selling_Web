@@ -22,8 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class AppConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
+//        return NoOpPasswordEncoder.getInstance();
     }
 
     @Autowired

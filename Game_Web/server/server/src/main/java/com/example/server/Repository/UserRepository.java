@@ -1,9 +1,15 @@
 package com.example.server.Repository;
 
+import com.example.server.DTO.SignUpRequestDTO;
+import com.example.server.Models.CustomUserDetails;
 import com.example.server.Models.User;
+import com.example.server.Service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -14,4 +20,15 @@ public interface UserRepository extends JpaRepository <User,Long>{
 
     @Query(value = "select * from users where user_name = :name", nativeQuery = true)
     Optional<User> findByName(@Param("name") String name);
+
+    @Query(value = "insert into users(user_name, real_name, pass_word, address, phone) values (:userName, :realName, :passWord, :address, :phone)", nativeQuery = true)
+    Optional<User> addUser(@Param("userName") String userName, @Param("realName") String realName, @Param("passWord") String passWord, @Param("address") String address, @Param("phone") String phone);
+
+    public default CustomUserDetails signup(SignUpRequestDTO signUpRequestDTO) {
+        CustomUserDetails newUser = CustomUserDetails.builder().user(User.builder().user_name(signUpRequestDTO.getUserName()).real_name(signUpRequestDTO.getRealName()).role("USER").phone(signUpRequestDTO.getPhone()).address(signUpRequestDTO.getAddress()).pass_word(signUpRequestDTO.getPassWord()).build()).build();
+//        CustomUserDetails newUser = CustomUserDetails.builder().build().setUser(User.builder().user_name(signUpRequestDTO.getUserName()).real_name(signUpRequestDTO.getRealName()).role("USER").phone(signUpRequestDTO.getPhone()).address(signUpRequestDTO.getAddress()).pass_word(signUpRequestDTO.getPassWord()).build();
+//                .user(User.builder().user_name(signUpRequestDTO.getUserName()).real_name(signUpRequestDTO.getRealName()).role("USER").phone(signUpRequestDTO.getPhone()).address(signUpRequestDTO.getAddress()).pass_word(signUpRequestDTO.getPassWord()).build()).build();
+        this.save(newUser.getUser());
+        return newUser;
+    }
 }
