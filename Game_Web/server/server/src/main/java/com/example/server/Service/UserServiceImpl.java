@@ -1,5 +1,6 @@
 package com.example.server.Service;
 
+import com.example.server.DTO.LoginRequestDTO;
 import com.example.server.DTO.SignUpRequestDTO;
 import com.example.server.DTO.SignUpResponseDTO;
 import com.example.server.Models.CustomUserDetails;
@@ -38,6 +39,22 @@ private JwtService jwtService;
         User a = userRepository.findByName(username).get();
         return new CustomUserDetails(a);
     }
+
+    @Override
+    public SignUpResponseDTO login(LoginRequestDTO loginRequestDTO) {
+        CustomUserDetails a = userRepository.login(loginRequestDTO);
+        if(a == null) return null;
+        var jwt = jwtService.generateToken(a);
+        return SignUpResponseDTO.builder()
+                .id(a.getUser().getUserId())
+                .userName(a.getUsername())
+                .role(Role.USER)
+                .token(jwt)
+                .token_type("Bearer")
+                .expire_in(jwtService.extractExpiration(jwt))
+                .build();
+    }
+
     @Override
     public SignUpResponseDTO createNewUser(SignUpRequestDTO signUpRequestDTO) {
         CustomUserDetails a = userRepository.signup(signUpRequestDTO);
@@ -52,6 +69,7 @@ private JwtService jwtService;
                 .expire_in(jwtService.extractExpiration(jwt))
                 .build();
     }
+
 
 
 }

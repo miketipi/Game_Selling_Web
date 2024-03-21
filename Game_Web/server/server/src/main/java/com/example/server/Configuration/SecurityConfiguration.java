@@ -44,7 +44,7 @@ public class SecurityConfiguration {
         return http.csrf(a -> a.disable())
                 .authorizeHttpRequests(a -> a
                         .requestMatchers(HttpMethod.GET,"/game/**",  "/gametype/**", "/publisher/**", "/platform/**"  )
-                            .permitAll().requestMatchers(HttpMethod.POST, "/authenticate/signup").permitAll().requestMatchers(HttpMethod.GET,"/user/all")
+                            .permitAll().requestMatchers(HttpMethod.POST, "/authenticate/signup", "/authenticate/login").permitAll().requestMatchers(HttpMethod.GET,"/user/all")
                         .authenticated())
                 .authenticationProvider(authenticationProvider)
                 .formLogin(Customizer.withDefaults())

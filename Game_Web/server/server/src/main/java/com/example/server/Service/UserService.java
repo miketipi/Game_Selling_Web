@@ -1,5 +1,6 @@
 package com.example.server.Service;
 
+import com.example.server.DTO.LoginRequestDTO;
 import com.example.server.DTO.SignUpRequestDTO;
 import com.example.server.DTO.SignUpResponseDTO;
 import com.example.server.Models.CustomUserDetails;
@@ -19,4 +20,6 @@ public interface UserService extends UserDetailsService {
     Optional<User> findUserByName(String name);
     public SignUpResponseDTO createNewUser (SignUpRequestDTO signUpRequestDTO);
     public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
+    public SignUpResponseDTO login(LoginRequestDTO loginRequestDTO);
 }

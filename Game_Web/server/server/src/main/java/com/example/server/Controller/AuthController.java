@@ -1,5 +1,6 @@
 package com.example.server.Controller;
 
+import com.example.server.DTO.LoginRequestDTO;
 import com.example.server.DTO.SignUpRequestDTO;
 import com.example.server.DTO.SignUpResponseDTO;
 import com.example.server.Service.JwtService;
@@ -34,5 +35,10 @@ public class AuthController {
     public ResponseEntity<SignUpResponseDTO> signup (@RequestBody SignUpRequestDTO req) {
         SignUpResponseDTO signUpRequestDTO = userService.createNewUser(req);
         return ResponseEntity.ok(signUpRequestDTO);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<SignUpResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO){
+SignUpResponseDTO LoginResponseDTO = userService.login(loginRequestDTO);
+return ResponseEntity.ok(LoginResponseDTO);
     }
 }

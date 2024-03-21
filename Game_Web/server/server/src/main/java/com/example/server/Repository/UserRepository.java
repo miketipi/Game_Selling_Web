@@ -1,5 +1,6 @@
 package com.example.server.Repository;
 
+import com.example.server.DTO.LoginRequestDTO;
 import com.example.server.DTO.SignUpRequestDTO;
 import com.example.server.Models.CustomUserDetails;
 import com.example.server.Models.User;
@@ -31,4 +32,11 @@ public interface UserRepository extends JpaRepository <User,Long>{
         this.save(newUser.getUser());
         return newUser;
     }
+     public default CustomUserDetails login (LoginRequestDTO loginRequestDTO){
+        Optional<User> loginUser = this.findByName(loginRequestDTO.getUserName());
+        if(loginUser.get().getUser_name().equals(loginRequestDTO.getUserName()) && loginUser.get().getPass_word().equals(loginRequestDTO.getPassWord())){
+            return CustomUserDetails.builder().user(User.builder().user_name(loginUser.get().getUser_name()).real_name(loginUser.get().getReal_name()).role(loginUser.get().getRole()).phone(loginUser.get().getPhone()).address(loginUser.get().getAddress()).pass_word(loginUser.get().getPass_word()).build()).build();
+        }
+        return null;
+     }
 }
