@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -25,6 +26,7 @@ public class GameController {
     @ResponseBody
     List<Game> getAll() {
         logger.info("Lay Tat Ca Game");
+
         try {
             return gameService.getAllGame();
         }catch (DisabledException e) {

@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +30,16 @@ public class GameTypeController {
         return  gameTypeService.getAllGameType();
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/delete")
+    void deleteGameType(@RequestBody Long id){
+        logger.info("Xoa game type co ma id : " + id);
+        gameTypeService.deleteGameType(id);
+    }
+
 
     @Transactional
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/{id}")
     void updateGametype(@PathVariable("id") Long id, String name){
 logger.info("Update thong tin loai game voi id : " + id);

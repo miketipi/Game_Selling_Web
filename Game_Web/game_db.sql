@@ -57,28 +57,36 @@ modified_at DATETIME
 );
 CREATE TABLE if NOT EXISTS platform(
 platform_id BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-platform_name nVARCHAR(100)
+platform_name nVARCHAR(100),
+created_at DATETIME DEFAULT NOW(),
+modified_at DATETIME,
+deleted BOOLEAN DEFAULT false
 );
 CREATE TABLE if NOT EXISTS gametype(
 game_type_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-game_type_name nVARCHAR(100)
+game_type_name nVARCHAR(100),
+created_at DATETIME DEFAULT NOW(),
+modified_at DATETIME,
+deleted BOOLEAN DEFAULT false
 );
 CREATE TABLE if NOT EXISTS users(
 user_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 user_name NVARCHAR(100) NOT NULL unique,
 real_name NVARCHAR(100),
 pass_word NVARCHAR(100) NOT NULL,
-adresss NVARCHAR(100),
+address NVARCHAR(100),
 phone NVARCHAR(10),
 ROLE VARCHAR(5) NOT NULL DEFAULT 'USER',
 created_at DATETIME DEFAULT NOW(),
 modified_at DATETIME ,
 deleted BOOLEAN DEFAULT false
 );
-
 CREATE TABLE if NOT EXISTS publisher(
 publisher_id bigINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-publisher_name NVARCHAR(100));
+publisher_name NVARCHAR(100),
+created_at DATETIME DEFAULT NOW(),
+modified_at DATETIME,
+deleted BOOLEAN DEFAULT false);
 
 /*Them vao cac foreign key*/
 /*Foreign key cua game*/
@@ -117,6 +125,46 @@ CREATE TRIGGER `TRG_cart_created_at` BEFORE INSERT ON `cart`
 END $$
 delimiter;
 
+delimiter $$
+CREATE TRIGGER `TRG_platform_created_at` BEFORE INSERT ON `platform`
+	FOR EACH ROW begin
+	SET NEW.created_at = NOW();
+END $$
+delimiter;
+
+delimiter $$
+CREATE TRIGGER `TRG_platform_modified_at` BEFORE update ON `platform`
+	FOR EACH ROW begin
+	SET NEW.modified_at = NOW();
+END $$
+delimiter;
+
+delimiter $$
+CREATE TRIGGER `TRG_gametype_created_at` BEFORE INSERT ON `gametype`
+	FOR EACH ROW begin
+	SET NEW.created_at = NOW();
+END $$
+delimiter;
+delimiter $$
+CREATE TRIGGER `TRG_gametype_modified_at` BEFORE update ON `gametype`
+	FOR EACH ROW begin
+	SET NEW.modified_at = NOW();
+END $$
+delimiter;
+
+
+delimiter $$
+CREATE TRIGGER `TRG_publisher_created_at` BEFORE INSERT ON `publisher`
+	FOR EACH ROW begin
+	SET NEW.created_at = NOW();
+END $$
+delimiter;
+delimiter $$
+CREATE TRIGGER `TRG_publisher_modified_at` BEFORE update ON `publisher`
+	FOR EACH ROW begin
+	SET NEW.modified_at = NOW();
+END $$
+delimiter;
 delimiter $$
 CREATE TRIGGER `TRG_cart_modified_at` BEFORE UPDATE ON `cart`
  FOR EACH ROW BEGIN
@@ -163,6 +211,7 @@ CREATE TRIGGER `TRG_favourite_item_modified_at` BEFORE UPDATE ON `favourite_item
 END $$
 delimiter;
 delimiter $$
+
 
 CREATE TRIGGER `TRG_user_created_at` BEFORE INSERT ON `users`
  FOR EACH ROW BEGIN
@@ -352,19 +401,19 @@ INSERT INTO game (product_id, game_type_id, game_name, game_price, game_image, g
 VALUES ('1030', '6', 'Return to abyss', '56', 'https://cdn.cloudflare.steamstatic.com/steam/apps/2185780/header.jpg?t=1673082640', '3.2', 'available', RAND()*10, '', FLOOR(RAND()*10000), '1');
 
 /*Insert thông tin vào user*/
-INSERT INTO users (user_name, real_name, pass_word, adresss, phone, ROLE)
+INSERT INTO users (user_name, real_name, pass_word, address, phone, ROLE)
 VALUES ('phuc', 'Real Name 1', '123456', 'Address 1', '1234567890', 'USER');
 
-INSERT INTO users (user_name, real_name, pass_word, adresss, phone, ROLE)
+INSERT INTO users (user_name, real_name, pass_word, address, phone, ROLE)
 VALUES ('User2', 'Real Name 2', 'password2', 'Address 2', '1234567891', 'USER');
 
-INSERT INTO users (user_name, real_name, pass_word, adresss, phone, ROLE)
+INSERT INTO users (user_name, real_name, pass_word, address, phone, ROLE)
 VALUES ('User3', 'Real Name 3', 'password3', 'Address 3', '1234567892', 'USER');
 
-INSERT INTO users (user_name, real_name, pass_word, adresss, phone, ROLE)
+INSERT INTO users (user_name, real_name, pass_word, address, phone, ROLE)
 VALUES ('User4', 'Real Name 4', 'password4', 'Address 4', '1234567893', 'USER');
 
-INSERT INTO users (user_name, real_name, pass_word, adresss, phone, ROLE)
+INSERT INTO users (user_name, real_name, pass_word, address, phone, ROLE)
 VALUES ('tphuc', 'Real Name 5', '12345', 'Address 5', '1234567894', 'ADMIN');
 
 COMMIT;

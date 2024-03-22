@@ -28,5 +28,9 @@ public interface GameTypeRepository extends JpaRepository<GameType, Long> {
     @Query(value = "update gametype \n" + "set game_type_name = :name \n" + " where gametype.id = :id", nativeQuery = true)
     void updateGameType(@Param("id") Long id, @Param("name") String  name);
 
+    @Modifying
+    @Query(value = "update gametype \n" + "set deleted = true \n" + "where gametype.id = id", nativeQuery = true)
+    void deleteGameType(@Param("id") Long id);
+
 
 }

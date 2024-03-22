@@ -11,6 +11,7 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 @Autowired
 private JwtService jwtService;
+@Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public List<User> getAllUser() {
         return userRepository.findAll();
@@ -66,6 +69,8 @@ private JwtService jwtService;
 
     @Override
     public SignUpResponseDTO createNewUser(SignUpRequestDTO signUpRequestDTO) {
+        String passWord = signUpRequestDTO.getPassWord();
+        signUpRequestDTO.setPassWord(passwordEncoder.encode(passWord));
         CustomUserDetails a = userRepository.signup(signUpRequestDTO);
         if(a ==null) return null;
         var jwt = jwtService.generateToken(a);

@@ -10,4 +10,6 @@ public interface GameTypeService {
     List<GameType> getAllGameType();
 //    Optional<List<Game>> getAllGameByType(Long id);
     void updateGameType(Long id, String name);
+
+    void deleteGameType(Long id);
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +16,14 @@ public class GameServiceImpl implements GameService {
     private GameRepository gameRepository;
     @Override
     public List<Game> getAllGame(){
-        return gameRepository.findAll();
+        List<Game> unDeletedGames = new ArrayList<Game>();
+        List<Game> allGame = gameRepository.findAll();
+        for (Game game : allGame){
+            if(!game.isDeleted()){
+                unDeletedGames.add(game);
+            }
+        }
+        return unDeletedGames;
     }
     @Override
     public Optional<Game> getGameById(Long id){

@@ -5,7 +5,8 @@ import com.example.server.Repository.PlatformRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+
 @Service
 public class PlatformServiceImpl implements PlatformService {
     @Autowired
@@ -13,7 +14,14 @@ public class PlatformServiceImpl implements PlatformService {
 
     @Override
     public List<Platform> getAllPlatform(){
-        return platformRepository.getAllPlatform();
+        List<Platform> allPlatform  = platformRepository.getAllPlatform();
+        List<Platform> undeletedPlatform = new ArrayList<Platform>();
+        for(Platform platform :  allPlatform){
+            if (!platform.getDeleted()){
+                undeletedPlatform.add(platform);
+            }
+        }
+        return undeletedPlatform;
     }
 
 }
