@@ -3,6 +3,7 @@ package com.example.server.Repository;
 import com.example.server.DTO.LoginRequestDTO;
 import com.example.server.DTO.SignUpRequestDTO;
 import com.example.server.Models.CustomUserDetails;
+import com.example.server.Models.Role;
 import com.example.server.Models.User;
 import com.example.server.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public interface UserRepository extends JpaRepository <User,Long>{
     Optional<User> addUser(@Param("userName") String userName, @Param("realName") String realName, @Param("passWord") String passWord, @Param("address") String address, @Param("phone") String phone);
 
     public default CustomUserDetails signup(SignUpRequestDTO signUpRequestDTO) {
-        CustomUserDetails newUser = CustomUserDetails.builder().user(User.builder().user_name(signUpRequestDTO.getUserName()).real_name(signUpRequestDTO.getRealName()).role("USER").phone(signUpRequestDTO.getPhone()).address(signUpRequestDTO.getAddress()).pass_word(signUpRequestDTO.getPassWord()).build()).build();
+        CustomUserDetails newUser = CustomUserDetails.builder().user(User.builder().user_name(signUpRequestDTO.getUserName()).real_name(signUpRequestDTO.getRealName()).role(Role.USER).phone(signUpRequestDTO.getPhone()).address(signUpRequestDTO.getAddress()).pass_word(signUpRequestDTO.getPassWord()).build()).build();
 //        CustomUserDetails newUser = CustomUserDetails.builder().build().setUser(User.builder().user_name(signUpRequestDTO.getUserName()).real_name(signUpRequestDTO.getRealName()).role("USER").phone(signUpRequestDTO.getPhone()).address(signUpRequestDTO.getAddress()).pass_word(signUpRequestDTO.getPassWord()).build();
 //                .user(User.builder().user_name(signUpRequestDTO.getUserName()).real_name(signUpRequestDTO.getRealName()).role("USER").phone(signUpRequestDTO.getPhone()).address(signUpRequestDTO.getAddress()).pass_word(signUpRequestDTO.getPassWord()).build()).build();
         this.save(newUser.getUser());

@@ -7,6 +7,7 @@ import com.example.server.Models.CustomUserDetails;
 import com.example.server.Models.Role;
 import com.example.server.Models.User;
 import com.example.server.Repository.UserRepository;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,11 +49,19 @@ private JwtService jwtService;
         return SignUpResponseDTO.builder()
                 .id(a.getUser().getUserId())
                 .userName(a.getUsername())
-                .role(Role.USER)
+                .role(a.getUser().getRole())
                 .token(jwt)
                 .token_type("Bearer")
                 .expire_in(jwtService.extractExpiration(jwt))
                 .build();
+    }
+
+    @Override
+    public Optional<User> getMyInformation(String jwt) {
+        if(!jwtService.isValidateToken(jwt)) return null;
+        String username = jwtService.extractUserName(jwt);
+        Optional<User> me = userRepository.findByName(username);
+        return me;
     }
 
     @Override

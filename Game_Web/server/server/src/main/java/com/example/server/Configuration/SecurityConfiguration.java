@@ -43,11 +43,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(a -> a.disable())
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers(HttpMethod.GET,"/game/**",  "/gametype/**", "/publisher/**", "/platform/**"  )
+                        .requestMatchers(HttpMethod.GET,"/game/**",  "/gametype/**", "/publisher/**", "/platform/**", "/user/me", "/user/{id}"  )
                             .permitAll().requestMatchers(HttpMethod.POST, "/authenticate/signup", "/authenticate/login").permitAll().requestMatchers(HttpMethod.GET,"/user/all")
                         .authenticated())
                 .authenticationProvider(authenticationProvider)
-                .formLogin(Customizer.withDefaults())
+//                .formLogin(Customizer.withDefaults())
 //                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(a -> a
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

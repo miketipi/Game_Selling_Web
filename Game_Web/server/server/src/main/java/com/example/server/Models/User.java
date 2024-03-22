@@ -32,7 +32,7 @@ public class User {
     @Column (name = "phone")
     private String phone;
     @Column (name ="role")
-    private String role = "USER";
-
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
 
 }

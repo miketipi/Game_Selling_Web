@@ -22,4 +22,6 @@ public interface UserService extends UserDetailsService {
     public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
     public SignUpResponseDTO login(LoginRequestDTO loginRequestDTO);
+
+    Optional<User> getMyInformation(String jwt);
 }
