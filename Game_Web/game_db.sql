@@ -192,6 +192,17 @@ END $$
 delimiter;
 
 delimiter $$
+CREATE TRIGGER `TRG_add_cart_item` before INSERT ON `cart_item`
+FOR EACH ROW BEGIN
+    SET New.own_price = (SELECT game_price FROM game WHERE game.product_id = NEW.product_id);
+UPDATE cart SET cart.total = (cart.total + NEW.own_price), cart.quantity = (cart.quantity + 1) 
+WHERE new.cart_id = cart.cart_id;
+
+END $$
+delimiter;
+
+
+delimiter $$
 CREATE TRIGGER `TRG_cart_item_modified_at` BEFORE UPDATE ON `cart_item`
  FOR EACH ROW BEGIN
 	SET NEW.modified_at = NOW();
@@ -210,9 +221,15 @@ CREATE TRIGGER `TRG_favourite_item_modified_at` BEFORE UPDATE ON `favourite_item
 	SET NEW.modified_at = NOW();
 END $$
 delimiter;
+
+
 delimiter $$
-
-
+CREATE TRIGGER `TRG_create_user_cart` AFTER INSERT ON `users`
+FOR EACH ROW BEGIN
+INSERT INTO cart(user_id) VALUES (NEW.user_id);
+END $$
+delimiter; 
+delimiter $$
 CREATE TRIGGER `TRG_user_created_at` BEFORE INSERT ON `users`
  FOR EACH ROW BEGIN
 	SET NEW.created_at = NOW();
@@ -418,3 +435,4 @@ VALUES ('tphuc', 'Real Name 5', '12345', 'Address 5', '1234567894', 'ADMIN');
 
 COMMIT;
 
+SELECT * FROM users

@@ -42,6 +42,11 @@ public interface GameRepository  extends JpaRepository <Game,Long> {
     @Query(value = "update game \n" + "set game_type_id = :gameTypeId, game_name = :gameName, game_price = :gamePrice, game_image = :gameImage, game_rating = :gameRating, game_status = :gameStatus, platform_id = :platformId, game_version = :gameVersion, game_downloaded = :gameDownloaded, publisher_id = :publisherId \n" + "where product_id = :productId", nativeQuery = true)
     void updateGameById(@Param("gameTypeId") Long gameTypeId, @Param("gameName") String gameName, @Param("gamePrice") BigDecimal gamePrice, @Param("gameImage") String gameImage, @Param("gameRating") Float gameRating, @Param("gameStatus") String gameStatus, @Param("platformId") Long platformId, @Param("gameVersion") String gameVersion, @Param("gameDownloaded") Integer gameDownloaded, @Param("publisherId") Long publisherId, @Param("productId") Long productId );
 
+
+    @Modifying
+    @Transactional
+    @Query(value = "update game \n" + "set deleted = 1 \n" + "where game.id = :id", nativeQuery = true)
+    void deleteGameById(@Param("id") Long id);
 //    @Modifying
 //    @Transactional
 //    @Query(value = "update game \n" + "set ", nativeQuery = true)
