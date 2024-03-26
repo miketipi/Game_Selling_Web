@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class FavouriteProductId implements Serializable {
-    private Long favouriteId;
+    private Long favId;
     private Long productId;
 
 
@@ -15,11 +15,11 @@ public class FavouriteProductId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FavouriteProductId that = (FavouriteProductId) o;
-        return Objects.equals(favouriteId, that.favouriteId) && Objects.equals(productId, that.productId);
+        return Objects.equals(favId, that.favId) && Objects.equals(productId, that.productId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(favouriteId, productId);
+        return Objects.hash(favId, productId);
     }
 }

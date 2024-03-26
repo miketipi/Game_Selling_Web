@@ -1,5 +1,6 @@
 package com.example.server.Service;
 
+import com.example.server.Models.CartItem;
 import com.example.server.Models.FavouriteItem;
 import com.example.server.Repository.FavoriteItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,16 @@ public class FavouriteItemServiceImpl implements FavouriteItemService{
 
     @Override
     public void addFavItem(Long favId, Long productId) {
-
+        favoriteItemRepository.save(new FavouriteItem(productId, favId));
     }
 
     @Override
     public void softDelete(Long favId, Long productId) {
+        favoriteItemRepository.softDelete(favId, productId);
+    }
 
+    @Override
+    public List<FavouriteItem> getAllFavouriteItemById(Long favId) {
+        return favoriteItemRepository.getAllFavouriteItemById(favId);
     }
 }

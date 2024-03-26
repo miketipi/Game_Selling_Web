@@ -8,4 +8,6 @@ public interface FavouriteItemService {
     List<FavouriteItem> getAll();
     void addFavItem(Long favId, Long productId);
     void softDelete(Long favId, Long productId);
+
+    List<FavouriteItem> getAllFavouriteItemById(Long favId);
 }

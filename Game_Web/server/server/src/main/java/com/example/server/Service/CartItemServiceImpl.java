@@ -47,4 +47,9 @@ public class CartItemServiceImpl  implements CartItemService{
       //  cartItemService.delete(new CartItem(productId, userId));
         cartItemService.softDelete(userId, productId);
     }
+
+    @Override
+    public List<CartItem> getAllCartItemById(Long id) {
+        return cartItemService.getAllCartItemByCartId(id);
+    }
 }
