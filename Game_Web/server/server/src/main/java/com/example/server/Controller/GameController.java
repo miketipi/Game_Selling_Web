@@ -5,6 +5,7 @@ import com.example.server.DTO.ModifyGameDTO;
 import com.example.server.Models.Game;
 import com.example.server.Service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
@@ -70,6 +71,7 @@ public class GameController {
         return gameService.getGameByPublisher(id);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/insert")
     void insertGame(@RequestBody InsertGameDTO insertGameDTO){
         logger.info("Dang them vao co so du lieu doi tuong game moi ");

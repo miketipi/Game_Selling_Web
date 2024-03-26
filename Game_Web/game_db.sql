@@ -203,6 +203,30 @@ delimiter;
 
 
 delimiter $$
+CREATE TRIGGER `TRG_delete_cart_item` before delete ON `cart_item`
+FOR EACH ROW BEGIN
+    
+UPDATE cart SET cart.total = (cart.total - old.own_price), cart.quantity = (cart.quantity - 1) 
+WHERE old.cart_id = cart.cart_id;
+
+END $$
+delimiter;
+
+
+delimiter $$
+CREATE TRIGGER `TRG_soft_delete_cart_item` before update ON `cart_item`
+FOR EACH ROW BEGIN
+    if OLD.deleted IS NOT NULL then 
+	 if NEW.deleted <> OLD.deleted then
+UPDATE cart SET cart.total = (cart.total - old.own_price), cart.quantity = (cart.quantity - 1) 
+WHERE old.cart_id = cart.cart_id;
+END if;
+END if;
+
+END $$
+delimiter;
+
+delimiter $$
 CREATE TRIGGER `TRG_cart_item_modified_at` BEFORE UPDATE ON `cart_item`
  FOR EACH ROW BEGIN
 	SET NEW.modified_at = NOW();
@@ -227,6 +251,7 @@ delimiter $$
 CREATE TRIGGER `TRG_create_user_cart` AFTER INSERT ON `users`
 FOR EACH ROW BEGIN
 INSERT INTO cart(user_id) VALUES (NEW.user_id);
+INSERT INTO favourite(user_id) VALUES(NEW.user_id);
 END $$
 delimiter; 
 delimiter $$

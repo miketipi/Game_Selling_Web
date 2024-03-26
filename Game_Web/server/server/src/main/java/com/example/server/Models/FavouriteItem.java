@@ -10,37 +10,25 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(CartUserId.class)
+@IdClass(FavouriteProductId.class)
 @Entity
-@Table(name = "cart_item")
-public class CartItem {
+@Table(name = "fav_item")
+public class FavouriteItem {
     @Id
     @Column(name = "product_id")
     private Long productId;
-
     @Id
-    @Column(name = "cart_id")
-    private Long cartId;
-
-    @Column(name = "own_price")
-    private Long ownPrice;
-
+    @Column(name = "fav_id")
+    private Long favId;
     @Column(name = "created_at")
     private Date createdAt;
-
     @Column(name = "modified_at")
     private Date modifiedAt;
-
     @Column(name = "deleted")
-    private Boolean deleted = false;
+    private Boolean deleted;
 
-    public CartItem(Long productId, Long cartId){
-        this.cartId = cartId;
+    public FavouriteItem(Long favId, Long productId){
+        this.favId = favId;
         this.productId = productId;
     }
-
-
-
-
-
 }
