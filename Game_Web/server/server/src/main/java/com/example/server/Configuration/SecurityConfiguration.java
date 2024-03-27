@@ -43,10 +43,17 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(a -> a.disable())
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers(HttpMethod.GET,"/game/**",  "/gametype/**", "/publisher/**", "/platform/**", "/user/me", "/user/{id}", "cart/all"  )
-                            .permitAll().requestMatchers(HttpMethod.POST,"/cart/add","cart/delete", "/authenticate/signup", "/authenticate/login").permitAll().requestMatchers(HttpMethod.GET,"/user/all")
+                        .requestMatchers(HttpMethod.GET,"/game/**",  "/gametype/**", "/publisher/**", "/platform/**",  "/user/{id}"  )
+                            .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/authenticate/signup", "/authenticate/login")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/cart/add","/cart/delete", "/fav/add", "/fav/delete")
+                        //.permitAll()
+                        .authenticated()
+                        .requestMatchers(HttpMethod.GET,"/user/all", "/cart/me", "/fav/me", "user/me", "cart/all")
                         .authenticated())
                 .authenticationProvider(authenticationProvider)
+                //Loi hom kia khong len la do chua setting http basic default nen la cho du co setting nhu the nao spring security van xem no la mot request khong hop le
 //                .formLogin(Customizer.withDefaults())
 //                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(a -> a

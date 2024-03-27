@@ -1,6 +1,9 @@
 package com.example.server.Controller;
 
 import com.example.server.DTO.AddCartItemDTO;
+import com.example.server.DTO.AllCartInformationDTO;
+import com.example.server.DTO.CartResponseDTO;
+import com.example.server.Models.Cart;
 import com.example.server.Models.CartItem;
 import com.example.server.Repository.CartRepository;
 import com.example.server.Repository.UserRepository;
@@ -35,10 +38,23 @@ public static final Logger logger = Logger.getLogger("CartItem");
     }
 
 
-    @GetMapping("/{id}")
-    List<CartItem> getAllCartItemById(@PathVariable("id") Long id){
-        return cartItemService.getAllCartItemById(id);
-    }
+//    @GetMapping("/me")
+//    List<CartItem> getAllCartItemById(@RequestHeader("Authorization") String header){
+//        String jwt = header.substring(7);
+//        String username = jwtService.extractUserName(jwt);
+//        Long id = userRepository.findByName(username).get().getUserId();
+//        Long cartId = cartRepository.getCartIdByUserId(id);
+//        return cartItemService.getAllCartItemById(cartId);
+//    }
+@GetMapping("/me")
+AllCartInformationDTO getAllCartItemById(@RequestHeader("Authorization") String header){
+    String jwt = header.substring(7);
+    String username = jwtService.extractUserName(jwt);
+    Long id = userRepository.findByName(username).get().getUserId();
+    Long cartId = cartRepository.getCartIdByUserId(id);
+    CartResponseDTO cartResponseDTO = new CartResponseDTO(cartRepository.findById(cartId).get().getTotalMoney(), cartRepository.findById(cartId).get().getTotalQuantity());
+    return new AllCartInformationDTO(cartItemService.getAllCartItemById(cartId), cartResponseDTO);
+}
     @PostMapping("/add")
     void addCartItem(@RequestHeader("Authorization") String header,@RequestBody AddCartItemDTO addCartItemDTO){
         String jwt = header.substring(7);

@@ -78,6 +78,7 @@ public class GameController {
         gameService.insertGame(insertGameDTO.getGameTypeId(), insertGameDTO.getGameName(), insertGameDTO.getGamePrice(),insertGameDTO.getGameImage(),insertGameDTO.getGameRating(),insertGameDTO.getGameStatus(),insertGameDTO.getPlatformId(),insertGameDTO.getGameVersion(),insertGameDTO.getGameDownloaded(),insertGameDTO.getPublisherId());
     };
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/update")
     void updateGame(@RequestBody ModifyGameDTO modifyGameDTO){
         logger.info("Dang update game voi gameId la : " + modifyGameDTO.getProductId());

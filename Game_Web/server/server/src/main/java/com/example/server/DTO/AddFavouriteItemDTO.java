@@ -7,7 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddFavouriteItemDTO {
-    private Long favId;
+public class AddFavouriteItemDTO { ;
     private Long productId;
 }

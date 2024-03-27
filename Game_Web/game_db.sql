@@ -86,9 +86,34 @@ publisher_id bigINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 publisher_name NVARCHAR(100),
 created_at DATETIME DEFAULT NOW(),
 modified_at DATETIME,
-deleted BOOLEAN DEFAULT false);
+deleted BOOLEAN DEFAULT FALSE);
+
+CREATE TABLE if NOT EXISTS orders(
+order_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+user_id BIGINT NOT NULL,
+total DECIMAL(20,2),
+created_at DATETIME DEFAULT NOW(),
+modified_at DATETIME,
+deleted BOOLEAN DEFAULT FALSE,
+cart_id BIGINT NOT NULL,
+order_status BOOLEAN DEFAULT FALSE);
+
+CREATE TABLE if NOT EXISTS comments(
+comment_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+user_id BIGINT NOT NULL,
+product_id BIGINT NOT NULL,
+content NVARCHAR(500),
+created_at DATETIME DEFAULT NOW(),
+modified_at DATETIME,
+deleted BOOLEAN DEFAULT FALSE);
 
 /*Them vao cac foreign key*/
+/*Foreign key cua comments */
+ALTER TABLE comments ADD CONSTRAINT FK_comments_users FOREIGN KEY (`user_id`) REFERENCES users(`user_id`);
+ALTER TABLE comments ADD CONSTRAINT FK_comments_product FOREIGN KEY (`product_id`) REFERENCES game(`product_id`);
+/*Foreign key cua order */
+ALTER TABLE orders ADD CONSTRAINT FK_orders_cart FOREIGN KEY (`cart_id`) REFERENCES cart(`cart_id`);
+ALTER TABLE orders ADD CONSTRAINT FK_orders_users FOREIGN KEY (`user_id`) REFERENCES users(`user_id`) ;
 /*Foreign key cua game*/
 ALTER TABLE game ADD CONSTRAINT FK_game_publisher FOREIGN KEY (`publisher_id`) REFERENCES publisher(`publisher_id`);
 ALTER TABLE game ADD CONSTRAINT FK_game_platform FOREIGN KEY (`platform_id`) REFERENCES platform(`platform_id`);
@@ -103,6 +128,36 @@ ALTER TABLE favourite ADD CONSTRAINT FK_fav_user FOREIGN KEY (`user_id`) REFEREN
 /*Foreign key cua favorite_item*/
 ALTER TABLE favourite_item ADD CONSTRAINT FK_fav_item_user FOREIGN KEY (`product_id`) REFERENCES game(`product_id`);
 ALTER TABLE favourite_item ADD CONSTRAINT FK_fav_item_fav FOREIGN KEY(`fav_id`) REFERENCES favourite(`fav_id`);
+/*Trigger cua order */
+delimiter $$
+CREATE TRIGGER `TRG_order_created_at` BEFORE INSERT ON `orders`
+ FOR EACH ROW BEGIN
+	SET NEW.created_at = NOW();
+END $$
+delimiter;
+
+delimiter $$
+CREATE TRIGGER `TRG_order_modified_at` BEFORE UPDATE ON `orders`
+ FOR EACH ROW BEGIN
+	SET NEW.modified_at = NOW();
+END $$
+delimiter;
+
+/*Trigger cua comments */
+
+delimiter $$
+CREATE TRIGGER `TRG_comments_created_at` BEFORE INSERT ON `comments`
+ FOR EACH ROW BEGIN
+	SET NEW.created_at = NOW();
+END $$
+delimiter;
+
+delimiter $$
+CREATE TRIGGER `TRG_comments_modified_at` BEFORE UPDATE ON `comments`
+ FOR EACH ROW BEGIN
+	SET NEW.modified_at = NOW();
+END $$
+delimiter;
 /*Cac trigger cua game*/
 delimiter $$
 CREATE TRIGGER `TRG_game_created_at` BEFORE INSERT ON `game`
