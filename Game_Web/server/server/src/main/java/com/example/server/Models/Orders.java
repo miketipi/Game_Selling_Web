@@ -27,7 +27,7 @@ public class Orders {
     @Column(name = "quantity")
     private Long quantity;
     @Column(name = "order_status")
-    private Boolean orderStatus;
+    private Boolean orderStatus = false;
     @Column(name = "created_at")
     private Date createdAt;
     @Column(name = "modified_at")
