@@ -3,6 +3,7 @@ package com.example.server.Models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Builder
@@ -20,7 +21,7 @@ public class Cart {
     @Column(name = "user_id")
     private Long userId;
     @Column(name = "total")
-    private Long totalMoney;
+    private BigDecimal totalMoney;
     @Column(name = "quantity")
     private Long totalQuantity;
     @Column(name = "created_at")

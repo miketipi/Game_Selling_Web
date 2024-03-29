@@ -117,7 +117,7 @@ urlReturn += VNPayConfig.vnp_ReturnUrl;
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
 //        com.google.gson.JsonObject job = new JsonObject();
-//        job.addProperty("code", "00");
+//        job.addProperty("code", "00"); https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
 //        job.addProperty("message", "success");
 //        job.addProperty("data", paymentUrl);
 //        Gson gson = new Gson();
