@@ -24,6 +24,8 @@ public class Orders {
     private Long cartId;
     @Column(name = "total")
     private BigDecimal total;
+    @Column(name = "quantity")
+    private Long quantity;
     @Column(name = "order_status")
     private Boolean orderStatus;
     @Column(name = "created_at")
