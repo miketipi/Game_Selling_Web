@@ -13,11 +13,11 @@ public class PlatformServiceImpl implements PlatformService {
     private PlatformRepository platformRepository;
 
     @Override
-    public List<Platform> getAllPlatform(){
-        List<Platform> allPlatform  = platformRepository.getAllPlatform();
+    public List<Platform> getAllPlatform() {
+        List<Platform> allPlatform = platformRepository.getAllPlatform();
         List<Platform> undeletedPlatform = new ArrayList<Platform>();
-        for(Platform platform :  allPlatform){
-            if (!platform.getDeleted()){
+        for (Platform platform : allPlatform) {
+            if (!platform.getDeleted()) {
                 undeletedPlatform.add(platform);
             }
         }

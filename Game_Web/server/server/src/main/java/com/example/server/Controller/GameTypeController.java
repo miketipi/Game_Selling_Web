@@ -25,14 +25,14 @@ public class GameTypeController {
 
     @GetMapping(value = "/all")
     @ResponseBody
-    List<GameType> getAllGameType(){
+    List<GameType> getAllGameType() {
         logger.info("Lay Tat Ca Loai Game");
-        return  gameTypeService.getAllGameType();
+        return gameTypeService.getAllGameType();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/delete")
-    void deleteGameType(@RequestBody Long id){
+    void deleteGameType(@RequestBody Long id) {
         logger.info("Xoa game type co ma id : " + id);
         gameTypeService.deleteGameType(id);
     }
@@ -41,9 +41,9 @@ public class GameTypeController {
     @Transactional
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/{id}")
-    void updateGametype(@PathVariable("id") Long id, String name){
-logger.info("Update thong tin loai game voi id : " + id);
-gameTypeService.updateGameType(id,name);
+    void updateGametype(@PathVariable("id") Long id, String name) {
+        logger.info("Update thong tin loai game voi id : " + id);
+        gameTypeService.updateGameType(id, name);
     }
 
 //    @GetMapping(value = "/gameoftype/{id}")

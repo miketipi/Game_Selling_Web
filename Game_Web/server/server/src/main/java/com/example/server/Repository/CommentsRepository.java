@@ -15,8 +15,8 @@ public interface CommentsRepository extends JpaRepository<Comments,Long> {
     @Query(value = "select * from comments where product_id = :productId", nativeQuery = true)
     List<Comments> getCommentsByProduct(@Param("productId") Long productId);
 
-    @Query(value = "insert into comments(user_id, product_id, content) values (:userId, :productId, content)", nativeQuery = true)
+    @Query(value = "insert into comments(user_id, product_id, content) values (:userId, :productId, :content)", nativeQuery = true)
     void addComments(@Param("userId") Long userId, @Param("productId") Long productId, @Param("content") String content);
-    @Query (value = "update comments \n" + "set content = :contents \n" + "where user_id = :userId \n" + "and comment_id = :commentId", nativeQuery = true)
-    void updateComments(@Param("user_id") Long userId, @Param("content") String content, @Param("productId") Long productId);
+    @Query (value = "update comments \n" + "set content = :content \n" + "where user_id = :userId \n" + "and comment_id = :commentId", nativeQuery = true)
+    void updateComments(@Param("userId") Long userId, @Param("content") String content, @Param("commentId") Long commentId);
 }

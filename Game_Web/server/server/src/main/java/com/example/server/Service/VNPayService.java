@@ -17,6 +17,9 @@ import java.util.*;
 
 @Service
 public class VNPayService {
+    //Sau khi xac nhan thanh toan, se tao ra 1 url thanh toan cho vnpay, url nay se dan den moi truong sandbox cua VNPAY, noi co cong tich hop VNP
+//    Sau khi nhap xong thong tin the test va thanh toan, se thanh toan thanh cong = > sau do VNP se gui 1 url request (GET) den trang ma chung ta chi dinh
+    //Tai do, ta se phai config check thong tin, cap nhat thong tin giao dich, ma loi 00 la thanh cong.
     public String createOrderUrl(Long total, String orderInfor, String urlReturn) throws UnsupportedEncodingException {
         //version
         String vnp_Version = "2.1.0";
@@ -24,8 +27,8 @@ public class VNPayService {
         String vnp_Command = "pay";
         //thong tin don hang
         String vnp_OrderInfo = orderInfor;
-      //Khong su dung order type trong demo vi co 100 ma hang 
-        // String orderType = req.getParameter("ordertype");
+        //Khong su dung order type trong demo vi co 100 ma hang
+         String orderType = "other";
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
         String vnp_IpAddr = "127.0.0.1";
         //Ma website merchant
@@ -45,11 +48,11 @@ public class VNPayService {
         //Mac dinh nen ko de bankcode
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", vnp_OrderInfo);
-        //vnp_Params.put("vnp_OrderType", orderType);
+        vnp_Params.put("vnp_OrderType", orderType);
 
 
-            vnp_Params.put("vnp_Locale", "vn");
-urlReturn += VNPayConfig.vnp_ReturnUrl;
+        vnp_Params.put("vnp_Locale", "vn");
+        urlReturn += VNPayConfig.vnp_ReturnUrl;
         vnp_Params.put("vnp_ReturnUrl", urlReturn);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -123,11 +126,12 @@ urlReturn += VNPayConfig.vnp_ReturnUrl;
 //        Gson gson = new Gson();
 //        resp.getWriter().write(gson.toJson(job));
         System.out.println(paymentUrl);
-        return  paymentUrl;
+        return paymentUrl;
     }
-    public int orderReturn(HttpServletRequest request){
+
+    public int orderReturn(HttpServletRequest request) {
         Map fields = new HashMap();
-        for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
+        for (Enumeration params = request.getParameterNames(); params.hasMoreElements(); ) {
             String fieldName = null;
             String fieldValue = null;
             try {

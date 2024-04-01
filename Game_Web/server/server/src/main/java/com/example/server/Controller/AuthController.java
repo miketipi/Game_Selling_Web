@@ -35,8 +35,9 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     public static final Logger logger = Logger.getLogger("Authenticate");
+
     @PostMapping("/signup")
-    public ResponseEntity<SignUpResponseDTO> signup (@RequestBody SignUpRequestDTO req) {
+    public ResponseEntity<SignUpResponseDTO> signup(@RequestBody SignUpRequestDTO req) {
         logger.info("Bat dau qua trinh signup");
         SignUpResponseDTO signUpRequestDTO = userService.createNewUser(req);
         logger.info("Signup thanh cong");
@@ -44,8 +45,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<SignUpResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO){
-    SignUpResponseDTO LoginResponseDTO = userService.login(loginRequestDTO);
-    return ResponseEntity.ok(LoginResponseDTO);
+    public ResponseEntity<SignUpResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+        SignUpResponseDTO LoginResponseDTO = userService.login(loginRequestDTO);
+        return ResponseEntity.ok(LoginResponseDTO);
     }
 }

@@ -20,12 +20,13 @@ public class CartServiceImpl implements CartService {
     private CartRepository cartRepository;
     @Autowired
     private CartItemRepository cartItemRepository;
+
     @Override
     public List<OldCartsDTO> getHistory(String userName) {
         User a = userRepository.findByName(userName).get();
         List<Cart> cartHistory = cartRepository.getUserCartHistory(a.getUserId());
         List<OldCartsDTO> oldListCart = new ArrayList<>();
-        for(Cart cart : cartHistory){
+        for (Cart cart : cartHistory) {
             oldListCart.add(OldCartsDTO.builder().cartId(cart.getCartId()).userId(cart.getUserId()).allItems(cartItemRepository.getAllCartItemByCartId(cart.getCartId())).totalPrice(cart.getTotalMoney()).quantity(cart.getTotalQuantity()).build());
         }
         return oldListCart;

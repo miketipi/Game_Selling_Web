@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class AppConfiguration {
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
 //        return NoOpPasswordEncoder.getInstance();
     }
@@ -32,14 +32,17 @@ public class AppConfiguration {
 
     @Autowired
     public CustomUserDetailsService customUserDetailsService;
+
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return (username -> (UserDetails) userRepository.findByName(username).get());
     }
+
     @Autowired
     public UserService userService;
+
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         authenticationProvider.setUserDetailsService(userService);

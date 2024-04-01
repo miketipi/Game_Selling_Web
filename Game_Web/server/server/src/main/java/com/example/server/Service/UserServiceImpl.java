@@ -16,14 +16,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
-@Autowired
-private JwtService jwtService;
-@Autowired
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Override
     public List<User> getAllUser() {
         return userRepository.findAll();
@@ -47,7 +49,7 @@ private JwtService jwtService;
     @Override
     public SignUpResponseDTO login(LoginRequestDTO loginRequestDTO) {
         CustomUserDetails a = userRepository.login(loginRequestDTO);
-        if(a == null) return null;
+        if (a == null) return null;
         var jwt = jwtService.generateToken(a);
         return SignUpResponseDTO.builder()
                 .id(a.getUser().getUserId())
@@ -61,7 +63,7 @@ private JwtService jwtService;
 
     @Override
     public Optional<User> getMyInformation(String jwt) {
-        if(!jwtService.isValidateToken(jwt)) return null;
+        if (!jwtService.isValidateToken(jwt)) return null;
         String username = jwtService.extractUserName(jwt);
         Optional<User> me = userRepository.findByName(username);
         return me;
@@ -72,7 +74,7 @@ private JwtService jwtService;
         String passWord = signUpRequestDTO.getPassWord();
         signUpRequestDTO.setPassWord(passwordEncoder.encode(passWord));
         CustomUserDetails a = userRepository.signup(signUpRequestDTO);
-        if(a ==null) return null;
+        if (a == null) return null;
         var jwt = jwtService.generateToken(a);
         return SignUpResponseDTO.builder()
                 .id(a.getUser().getUserId())
@@ -83,7 +85,6 @@ private JwtService jwtService;
                 .expire_in(jwtService.extractExpiration(jwt))
                 .build();
     }
-
 
 
 }

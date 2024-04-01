@@ -17,9 +17,10 @@ public class PlatformController {
     public static Logger logger = Logger.getLogger("Platform");
     @Autowired
     private PlatformService platformService;
+
     @GetMapping("/all")
     @ResponseBody
-    List<Platform> getAllPlatform(){
+    List<Platform> getAllPlatform() {
         logger.info("Get All Platform");
         return platformService.getAllPlatform();
     }

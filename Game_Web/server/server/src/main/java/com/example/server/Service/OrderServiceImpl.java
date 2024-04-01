@@ -15,8 +15,9 @@ public class OrderServiceImpl implements OrderService {
     private UserRepository userRepository;
     @Autowired
     private CartService cartService;
-    public Orders createOrders(CreateOrderDTO createOrderDTO){
-        Orders a = orderRepository.createOrder(createOrderDTO.getUserId(),createOrderDTO.getCartId(),createOrderDTO.getTotal(),createOrderDTO.getQuantity());
+
+    public Orders createOrders(CreateOrderDTO createOrderDTO) {
+        Orders a = orderRepository.createOrder(createOrderDTO.getUserId(), createOrderDTO.getCartId(), createOrderDTO.getTotal(), createOrderDTO.getQuantity());
         return a;
     }
 }

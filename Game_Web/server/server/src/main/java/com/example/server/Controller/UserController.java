@@ -24,11 +24,11 @@ public class UserController {
     @GetMapping(value = "/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseBody
-    List<User> getAllUsers(){
+    List<User> getAllUsers() {
         logger.info("Get all Users");
         try {
             return userService.getAllUser();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
@@ -36,19 +36,19 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     @ResponseBody
-    OtherUserDTO getUserById(@PathVariable("id") Long id){
+    OtherUserDTO getUserById(@PathVariable("id") Long id) {
         logger.info("Lay thong tin nguoi dung co id" + id);
-        Optional<User> a =  userService.getUserById(id);
+        Optional<User> a = userService.getUserById(id);
         return new OtherUserDTO(a.get().getUser_name(), a.get().getAddress(), a.get().getPhone());
     }
 
     @GetMapping(value = "/me")
     @ResponseBody
-    Optional<User> getMyInformation(@RequestHeader("Authorization") String header){
+    Optional<User> getMyInformation(@RequestHeader("Authorization") String header) {
         logger.info("Lay thong tin nguoi dung");
         logger.info("Noi dung header Authorization : " + header);
         String jwtToken = header.substring(7); //bat dau cat jwt sau chuoi bearer
-        Optional<User> a= userService.getMyInformation(jwtToken);
+        Optional<User> a = userService.getMyInformation(jwtToken);
         return a;
     }
 }

@@ -13,13 +13,14 @@ import java.util.List;
 public class PublisherServiceImpl implements PublisherService {
     @Autowired
     private PublisherRepository publisherRepository;
-    @Override
-    public List<Publisher> getAllPublisher(){
 
-        List<Publisher> allPublisher  = publisherRepository.getAllPublisher();
+    @Override
+    public List<Publisher> getAllPublisher() {
+
+        List<Publisher> allPublisher = publisherRepository.getAllPublisher();
         List<Publisher> undeletedPublisher = new ArrayList<Publisher>();
-        for(Publisher publisher :  allPublisher){
-            if (!publisher.getDeleted()){
+        for (Publisher publisher : allPublisher) {
+            if (!publisher.getDeleted()) {
                 undeletedPublisher.add(publisher);
             }
         }

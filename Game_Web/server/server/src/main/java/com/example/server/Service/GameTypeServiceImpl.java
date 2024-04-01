@@ -16,23 +16,25 @@ import java.util.Optional;
 public class GameTypeServiceImpl implements GameTypeService {
     @Autowired
     private GameTypeRepository gameTypeRepository;
+
     @Override
-    public List<GameType> getAllGameType(){
-        List<GameType> allPlatform  = gameTypeRepository.getAllGameType();
+    public List<GameType> getAllGameType() {
+        List<GameType> allPlatform = gameTypeRepository.getAllGameType();
         List<GameType> undeletedGameType = new ArrayList<GameType>();
-        for(GameType platform :  allPlatform){
-            if (!platform.getDeleted()){
+        for (GameType platform : allPlatform) {
+            if (!platform.getDeleted()) {
                 undeletedGameType.add(platform);
             }
         }
         return undeletedGameType;
     }
-//    @Override
+
+    //    @Override
 //    public Optional<List<Game>> getAllGameByType(Long id){
 //        return gameTypeRepository.getGamesByGameType(id);
 //    }
     @Override
-    public void updateGameType(Long id, String name){
+    public void updateGameType(Long id, String name) {
         gameTypeRepository.updateGameType(id, name);
     }
 

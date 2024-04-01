@@ -38,19 +38,20 @@ public class SecurityConfiguration {
     @Autowired
     public JwtFilter jwtFilter;
     private static final Logger logger = Logger.getLogger(SecurityConfig.class.getName());
-//Se thu y tuong tach tung .authorizeHttpRequests ra
+
+    //Se thu y tuong tach tung .authorizeHttpRequests ra
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(a -> a.disable())
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers(HttpMethod.GET,"/game/**",  "/gametype/**", "/publisher/**", "/platform/**",  "/user/{id}"  )
-                            .permitAll()
-                        .requestMatchers(HttpMethod.POST, "/authenticate/signup", "/authenticate/login")
+                        .requestMatchers(HttpMethod.GET, "/game/**", "/gametype/**", "/publisher/**", "/platform/**", "/user/{id}")
                         .permitAll()
-                        .requestMatchers(HttpMethod.POST, "/cart/add","/cart/delete", "/fav/add", "/fav/delete")
+                        .requestMatchers(HttpMethod.POST, "/authenticate/signup", "/authenticate/login", "/checkout/checkout")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/cart/add", "/cart/delete", "/fav/add", "/fav/delete")
                         //.permitAll()
                         .authenticated()
-                        .requestMatchers(HttpMethod.GET,"/user/all", "/cart/me", "/fav/me", "user/me", "cart/all")
+                        .requestMatchers(HttpMethod.GET, "/user/all", "/cart/me", "/fav/me", "user/me", "cart/all")
                         .authenticated())
                 .authenticationProvider(authenticationProvider)
                 //Loi hom kia khong len la do chua setting http basic default nen la cho du co setting nhu the nao spring security van xem no la mot request khong hop le
@@ -61,8 +62,9 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
     @Bean
-    public WebMvcConfigurer configurer(){
+    public WebMvcConfigurer configurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {

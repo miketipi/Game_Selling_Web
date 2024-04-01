@@ -23,6 +23,7 @@ public class GameController {
     public static final Logger logger = Logger.getLogger("Game");
     @Autowired
     private GameService gameService;
+
     @GetMapping(value = "/all")
     @ResponseBody
     List<Game> getAll() {
@@ -30,15 +31,13 @@ public class GameController {
 
         try {
             return gameService.getAllGame();
-        }catch (DisabledException e) {
+        } catch (DisabledException e) {
             System.out.println("Tai khoan da bi vo hieu hoa");
             throw e;
-        }
-        catch (BadCredentialsException b) {
+        } catch (BadCredentialsException b) {
             System.out.println("Ten nguoi dung hoac mat khau chua chinh xac");
             throw b;
-        }
-        catch (AuthenticationException e) {
+        } catch (AuthenticationException e) {
             System.out.println(e.getMessage());
             throw e;
         }
@@ -46,41 +45,44 @@ public class GameController {
 
     @GetMapping(value = "/{id}")
     @ResponseBody
-    Optional <Game> getGameById( @PathVariable("id") Long id){
+    Optional<Game> getGameById(@PathVariable("id") Long id) {
         logger.info("Truy cap game theo id : " + id);
         return gameService.getGameById(id);
     }
 
     @GetMapping(value = "/bygametype/{id}")
     @ResponseBody
-    List<Game> getGameByGameType(@PathVariable("id") Long id){
+    List<Game> getGameByGameType(@PathVariable("id") Long id) {
         logger.info("Lay cac game theo the loai " + id);
         return gameService.getAllGameByGameType(id);
     }
+
     @GetMapping(value = "/byplatform/{id}")
     @ResponseBody
-    List<Game> getGameByPlatform(@PathVariable("id") Long id){
+    List<Game> getGameByPlatform(@PathVariable("id") Long id) {
         logger.info("Lay cac game theo nen tang " + id);
         return gameService.getGameByPlatform(id);
     }
 
     @GetMapping(value = "/bypublisher/{id}")
     @ResponseBody
-    List<Game> getGameByPublisher(@PathVariable("id") Long id){
+    List<Game> getGameByPublisher(@PathVariable("id") Long id) {
         logger.info("Lay cac game theo nha phat trien " + id);
         return gameService.getGameByPublisher(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/insert")
-    void insertGame(@RequestBody InsertGameDTO insertGameDTO){
+    void insertGame(@RequestBody InsertGameDTO insertGameDTO) {
         logger.info("Dang them vao co so du lieu doi tuong game moi ");
-        gameService.insertGame(insertGameDTO.getGameTypeId(), insertGameDTO.getGameName(), insertGameDTO.getGamePrice(),insertGameDTO.getGameImage(),insertGameDTO.getGameRating(),insertGameDTO.getGameStatus(),insertGameDTO.getPlatformId(),insertGameDTO.getGameVersion(),insertGameDTO.getGameDownloaded(),insertGameDTO.getPublisherId());
-    };
+        gameService.insertGame(insertGameDTO.getGameTypeId(), insertGameDTO.getGameName(), insertGameDTO.getGamePrice(), insertGameDTO.getGameImage(), insertGameDTO.getGameRating(), insertGameDTO.getGameStatus(), insertGameDTO.getPlatformId(), insertGameDTO.getGameVersion(), insertGameDTO.getGameDownloaded(), insertGameDTO.getPublisherId());
+    }
+
+    ;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/update")
-    void updateGame(@RequestBody ModifyGameDTO modifyGameDTO){
+    void updateGame(@RequestBody ModifyGameDTO modifyGameDTO) {
         logger.info("Dang update game voi gameId la : " + modifyGameDTO.getProductId());
         gameService.updateGame(modifyGameDTO.getGameTypeId(), modifyGameDTO.getGameName(), modifyGameDTO.getGamePrice(), modifyGameDTO.getGameImage(), modifyGameDTO.getGameRating(), modifyGameDTO.getGameStatus(), modifyGameDTO.getPlatformId(), modifyGameDTO.getGameVersion(), modifyGameDTO.getGameDownloaded(), modifyGameDTO.getPublisherId(), modifyGameDTO.getProductId());
     }

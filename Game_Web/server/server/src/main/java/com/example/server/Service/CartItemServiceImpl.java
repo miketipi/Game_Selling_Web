@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CartItemServiceImpl  implements CartItemService{
+public class CartItemServiceImpl implements CartItemService {
     @Autowired
     private CartItemRepository cartItemService;
 
-//@Autowired
+    //@Autowired
 //private NewCartItemRepository newCartItemRepository;
     @Override
     public void addCartItem(Long cartId, Long productId) {
@@ -25,13 +25,12 @@ public class CartItemServiceImpl  implements CartItemService{
     }
 
 
-
     @Override
-    public List<CartItem> getAll(){
+    public List<CartItem> getAll() {
         List<CartItem> checkingList = cartItemService.findAll();
         List<CartItem> realList = new ArrayList<>();
-        for (CartItem cartItem : checkingList){
-            if (cartItem.getDeleted() == false){
+        for (CartItem cartItem : checkingList) {
+            if (cartItem.getDeleted() == false) {
                 realList.add(cartItem);
             }
         }
@@ -44,7 +43,7 @@ public class CartItemServiceImpl  implements CartItemService{
 
     @Override
     public void deleteCartItem(Long userId, Long productId) {
-      //  cartItemService.delete(new CartItem(productId, userId));
+        //  cartItemService.delete(new CartItem(productId, userId));
         cartItemService.softDelete(userId, productId);
     }
 

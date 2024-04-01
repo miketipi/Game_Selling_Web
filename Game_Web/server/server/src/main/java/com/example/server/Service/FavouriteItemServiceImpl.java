@@ -8,16 +8,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
-public class FavouriteItemServiceImpl implements FavouriteItemService{
+public class FavouriteItemServiceImpl implements FavouriteItemService {
     @Autowired
     private FavoriteItemRepository favoriteItemRepository;
+
     @Override
-    public List<FavouriteItem> getAll(){
+    public List<FavouriteItem> getAll() {
         List<FavouriteItem> getAllFromDB = new ArrayList<>();
         List<FavouriteItem> allFav = favoriteItemRepository.findAll();
-        for(FavouriteItem favItem : allFav){
-            if(favItem.getDeleted() == false){
+        for (FavouriteItem favItem : allFav) {
+            if (favItem.getDeleted() == false) {
                 getAllFromDB.add(favItem);
             }
         }

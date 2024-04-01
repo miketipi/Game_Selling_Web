@@ -15,9 +15,10 @@ import java.util.List;
 public class PublisherController {
     @Autowired
     public PublisherService publisherService;
+
     @GetMapping(value = "/all")
     @ResponseBody
-    List<Publisher> getAllPublisher(){
+    List<Publisher> getAllPublisher() {
         return publisherService.getAllPublisher();
     }
 }

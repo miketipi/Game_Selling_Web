@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/cart")
 public class CartController {
-public static final Logger logger = Logger.getLogger("CartItem");
+    public static final Logger logger = Logger.getLogger("CartItem");
     @Autowired
     private CartItemService cartItemService;
     @Autowired
@@ -30,15 +30,16 @@ public static final Logger logger = Logger.getLogger("CartItem");
     private UserRepository userRepository;
     @Autowired
     private CartRepository cartRepository;
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/all")
     @ResponseBody
-    List<CartItem> getAllCartItem(){
+    List<CartItem> getAllCartItem() {
         return cartItemService.getAll();
     }
 
 
-//    @GetMapping("/me")
+    //    @GetMapping("/me")
 //    List<CartItem> getAllCartItemById(@RequestHeader("Authorization") String header){
 //        String jwt = header.substring(7);
 //        String username = jwtService.extractUserName(jwt);
@@ -46,17 +47,18 @@ public static final Logger logger = Logger.getLogger("CartItem");
 //        Long cartId = cartRepository.getCartIdByUserId(id);
 //        return cartItemService.getAllCartItemById(cartId);
 //    }
-@GetMapping("/me")
-AllCartInformationDTO getAllCartItemById(@RequestHeader("Authorization") String header){
-    String jwt = header.substring(7);
-    String username = jwtService.extractUserName(jwt);
-    Long id = userRepository.findByName(username).get().getUserId();
-    Long cartId = cartRepository.getCartIdByUserId(id);
-    CartResponseDTO cartResponseDTO = new CartResponseDTO(cartRepository.findById(cartId).get().getTotalMoney(), cartRepository.findById(cartId).get().getTotalQuantity());
-    return new AllCartInformationDTO(cartItemService.getAllCartItemById(cartId), cartResponseDTO);
-}
+    @GetMapping("/me")
+    AllCartInformationDTO getAllCartItemById(@RequestHeader("Authorization") String header) {
+        String jwt = header.substring(7);
+        String username = jwtService.extractUserName(jwt);
+        Long id = userRepository.findByName(username).get().getUserId();
+        Long cartId = cartRepository.getCartIdByUserId(id);
+        CartResponseDTO cartResponseDTO = new CartResponseDTO(cartRepository.findById(cartId).get().getTotalMoney(), cartRepository.findById(cartId).get().getTotalQuantity());
+        return new AllCartInformationDTO(cartItemService.getAllCartItemById(cartId), cartResponseDTO);
+    }
+
     @PostMapping("/add")
-    void addCartItem(@RequestHeader("Authorization") String header,@RequestBody AddCartItemDTO addCartItemDTO){
+    void addCartItem(@RequestHeader("Authorization") String header, @RequestBody AddCartItemDTO addCartItemDTO) {
         String jwt = header.substring(7);
         String username = jwtService.extractUserName(jwt);
         Long id = userRepository.findByName(username).get().getUserId();
@@ -66,7 +68,7 @@ AllCartInformationDTO getAllCartItemById(@RequestHeader("Authorization") String 
     }
 
     @PostMapping("/delete")
-    void deleteCartItem(@RequestHeader("Authorization") String header , @RequestBody AddCartItemDTO addCartItemDTO){
+    void deleteCartItem(@RequestHeader("Authorization") String header, @RequestBody AddCartItemDTO addCartItemDTO) {
         String jwt = header.substring(7);
         String username = jwtService.extractUserName(jwt);
         Long id = userRepository.findByName(username).get().getUserId();
