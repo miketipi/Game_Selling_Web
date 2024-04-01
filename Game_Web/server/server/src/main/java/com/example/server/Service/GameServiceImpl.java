@@ -1,5 +1,6 @@
 package com.example.server.Service;
 
+import com.example.server.Models.Comments;
 import com.example.server.Models.Game;
 import com.example.server.Repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import java.util.Optional;
 public class GameServiceImpl implements GameService {
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private CommentsService commentsService;
 
     @Override
     public List<Game> getAllGame() {
@@ -55,5 +59,10 @@ public class GameServiceImpl implements GameService {
     @Override
     public void updateGame(Long gameTypeId, String gameName, BigDecimal gamePrice, String gameImage, Float gameRating, String gameStatus, Long platformId, String gameVersion, Integer gameDownloaded, Long publisherId, Long productId) {
         gameRepository.updateGameById(gameTypeId, gameName, gamePrice, gameImage, gameRating, gameStatus, platformId, gameVersion, gameDownloaded, publisherId, productId);
+    }
+
+    @Override
+    public List<Comments> getAllCommentsByProductId(Long id) {
+        return commentsService.getAllCommentsByProduct(id);
     }
 }

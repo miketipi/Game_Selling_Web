@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CartService {
     List<OldCartsDTO> getHistory(String userName);
+
+    Boolean deleteCartByName(String name);
 }

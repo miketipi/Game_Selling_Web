@@ -19,6 +19,6 @@ public interface OrderService {
     List <Orders> getAllOrdersByUser(Long userId);
     void createOrdersByUserId(Long userId, Long cartId, BigDecimal totalMoney,Long totalQuantity);
 
-    void updateOrderStatus(Long id);
+    Boolean updateOrderStatus(Long id);
 
 }

@@ -37,11 +37,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void createOrdersByUserId(Long userId, Long cartId, BigDecimal totalMoney, Long totalQuantity) {
-        orderRepository.createOrder(userId,cartId,totalMoney,totalQuantity);
+        orderRepository.createOrder(userId, cartId, totalMoney, totalQuantity);
     }
 
     @Override
-    public void updateOrderStatus(Long id) {
-orderRepository.updateByCartIdOrderByDeleted(id);
+    public Boolean updateOrderStatus(Long id) {
+        try {
+            orderRepository.updateByCartIdOrderByDeleted(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

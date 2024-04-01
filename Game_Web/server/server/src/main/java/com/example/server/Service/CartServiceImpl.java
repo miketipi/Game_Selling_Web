@@ -31,6 +31,17 @@ public class CartServiceImpl implements CartService {
         }
         return oldListCart;
     }
+
+    @Override
+    public Boolean deleteCartByName(String name) {
+        try {
+            User a = userRepository.findByName(name).get();
+            cartRepository.deleteCart(a.getUserId());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 //    @Autowired
 //    private Cart
 }

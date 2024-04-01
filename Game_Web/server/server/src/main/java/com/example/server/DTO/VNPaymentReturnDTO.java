@@ -14,9 +14,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class VNPaymentReturnDTO {
     private Boolean paymentStatus;
-    private  Long orderId;
-    private BigDecimal totalMoney;
-    private Date txtnTime;
+    private  String orderId;
+    private String totalMoney;
+    private String txtnTime;
     private Boolean updateDB;
     private String txtn;
 }

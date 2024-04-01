@@ -49,9 +49,11 @@ public class CartController {
 //    }
     @GetMapping("/me")
     AllCartInformationDTO getAllCartItemById(@RequestHeader("Authorization") String header) {
+
         String jwt = header.substring(7);
         String username = jwtService.extractUserName(jwt);
         Long id = userRepository.findByName(username).get().getUserId();
+        logger.info("Dang lay het thong tin cart cua nguoi dung id" + id);
         Long cartId = cartRepository.getCartIdByUserId(id);
         CartResponseDTO cartResponseDTO = new CartResponseDTO(cartRepository.findById(cartId).get().getTotalMoney(), cartRepository.findById(cartId).get().getTotalQuantity());
         return new AllCartInformationDTO(cartItemService.getAllCartItemById(cartId), cartResponseDTO);

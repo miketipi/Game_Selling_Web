@@ -1,5 +1,6 @@
 package com.example.server.Service;
 
+import com.example.server.Models.Comments;
 import com.example.server.Models.Game;
 import com.example.server.Repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,4 +23,6 @@ public interface GameService {
     void insertGame(Long gameTypeId, String gameName, BigDecimal gamePrice, String gameImage, Float gameRating, String gameStatus, Long platformId, String gameVersion, Integer gameDownloaded, Long publisherId);
 
     void updateGame(Long gameTypeId, String gameName, BigDecimal gamePrice, String gameImage, Float gameRating, String gameStatus, Long platformId, String gameVersion, Integer gameDownloaded, Long publisherId, Long productId);
+
+    List<Comments> getAllCommentsByProductId(Long id);
 }
