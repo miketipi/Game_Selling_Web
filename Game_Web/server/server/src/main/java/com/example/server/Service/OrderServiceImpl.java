@@ -7,6 +7,9 @@ import com.example.server.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
@@ -16,8 +19,29 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CartService cartService;
 
+    @Override
     public Orders createOrders(CreateOrderDTO createOrderDTO) {
         Orders a = orderRepository.createOrder(createOrderDTO.getUserId(), createOrderDTO.getCartId(), createOrderDTO.getTotal(), createOrderDTO.getQuantity());
         return a;
+    }
+
+    @Override
+    public List<Orders> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public List<Orders> getAllOrdersByUser(Long userId) {
+        return orderRepository.getAllOrdersByUser(userId);
+    }
+
+    @Override
+    public void createOrdersByUserId(Long userId, Long cartId, BigDecimal totalMoney, Long totalQuantity) {
+        orderRepository.createOrder(userId,cartId,totalMoney,totalQuantity);
+    }
+
+    @Override
+    public void updateOrderStatus(Long id) {
+orderRepository.updateByCartIdOrderByDeleted(id);
     }
 }

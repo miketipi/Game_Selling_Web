@@ -155,12 +155,15 @@ public class VNPayService {
         String signValue = VNPayConfig.hashAllFields(fields);
         if (signValue.equals(vnp_SecureHash)) {
             if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
+                //Tra ve trang thai thanh cong
                 return 1;
             } else {
                 return 0;
+                //Tra ve trang thai khong thanh cong
             }
         } else {
             return -1;
+            //tra ve trang thai khong xac thuc
         }
     }
 
