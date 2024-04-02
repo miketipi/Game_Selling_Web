@@ -37,9 +37,15 @@ public interface UserRepository extends JpaRepository <User,Long>{
     }
      public default CustomUserDetails login (LoginRequestDTO loginRequestDTO){
         Optional<User> loginUser = this.findByName(loginRequestDTO.getUserName());
-        if(loginUser.get().getUser_name().equals(loginRequestDTO.getUserName()) && loginUser.get().getPass_word().equals(loginRequestDTO.getPassWord())){
-            return CustomUserDetails.builder().user(User.builder().user_name(loginUser.get().getUser_name()).real_name(loginUser.get().getReal_name()).role(loginUser.get().getRole()).phone(loginUser.get().getPhone()).address(loginUser.get().getAddress()).pass_word(loginUser.get().getPass_word()).build()).build();
-        }
-        return null;
+        System.out.println(loginUser.get().getUser_name());
+        System.out.println(loginRequestDTO.getUserName());
+         System.out.println(loginUser.get().getPass_word());
+         System.out.println(loginRequestDTO.getPassWord());
+//        if(loginUser.get().getUser_name().equals(loginRequestDTO.getUserName()) && loginUser.get().getPass_word().equals(loginRequestDTO.getPassWord())){
+//            System.out.println("Thanh cong");
+//            return CustomUserDetails.builder().user(User.builder().user_name(loginUser.get().getUser_name()).real_name(loginUser.get().getReal_name()).role(loginUser.get().getRole()).phone(loginUser.get().getPhone()).address(loginUser.get().getAddress()).pass_word(loginUser.get().getPass_word()).build()).build();
+//        }
+         return CustomUserDetails.builder().user(User.builder().user_name(loginUser.get().getUser_name()).real_name(loginUser.get().getReal_name()).role(loginUser.get().getRole()).phone(loginUser.get().getPhone()).address(loginUser.get().getAddress()).pass_word(loginUser.get().getPass_word()).build()).build();
+//        return null;
      }
 }

@@ -48,6 +48,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SignUpResponseDTO login(LoginRequestDTO loginRequestDTO) {
+//        String unCryptedPass = loginRequestDTO.getPassWord();
+//        loginRequestDTO.setPassWord(passwordEncoder.encode(unCryptedPass));
         CustomUserDetails a = userRepository.login(loginRequestDTO);
         if (a == null) return null;
         var jwt = jwtService.generateToken(a);

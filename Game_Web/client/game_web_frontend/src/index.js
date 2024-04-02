@@ -6,14 +6,25 @@ import store from './reducers/index.js';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { ChakraProvider } from '@chakra-ui/react';
+import { RouterProvider } from 'react-router-dom';
+import router from './route.js';
+import { positions, transitions, Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const options = {
+  timeout: 5000,
+  position: positions.BOTTOM_CENTER,
+  transition: transitions.SCALE
+}
 root.render(
   <Provider store = {store}>
+    <AlertProvider template={AlertTemplate} {...options}>
   <React.StrictMode>
     <ChakraProvider>
-    <App />
+    <RouterProvider router={router}/>
     </ChakraProvider>
   </React.StrictMode>
+  </AlertProvider>
   </Provider>
 );
 
