@@ -45,7 +45,7 @@ public interface UserRepository extends JpaRepository <User,Long>{
 //            System.out.println("Thanh cong");
 //            return CustomUserDetails.builder().user(User.builder().user_name(loginUser.get().getUser_name()).real_name(loginUser.get().getReal_name()).role(loginUser.get().getRole()).phone(loginUser.get().getPhone()).address(loginUser.get().getAddress()).pass_word(loginUser.get().getPass_word()).build()).build();
 //        }
-         return CustomUserDetails.builder().user(User.builder().user_name(loginUser.get().getUser_name()).real_name(loginUser.get().getReal_name()).role(loginUser.get().getRole()).phone(loginUser.get().getPhone()).address(loginUser.get().getAddress()).pass_word(loginUser.get().getPass_word()).build()).build();
+         return CustomUserDetails.builder().user(User.builder().userId(loginUser.get().getUserId()).user_name(loginUser.get().getUser_name()).real_name(loginUser.get().getReal_name()).role(loginUser.get().getRole()).phone(loginUser.get().getPhone()).address(loginUser.get().getAddress()).pass_word(loginUser.get().getPass_word()).build()).build();
 //        return null;
      }
 }

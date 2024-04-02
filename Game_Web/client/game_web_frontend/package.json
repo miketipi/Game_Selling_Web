@@ -33,7 +33,7 @@
     "react": "^18.2.0",
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",
-    "react-bootstrap": "^2.7.4",
+    "react-bootstrap": "^2.10.2",
     "react-bootstrap-range-slider": "^3.0.8",
     "react-chat-engine": "^1.11.8",
     "react-dom": "^18.2.0",

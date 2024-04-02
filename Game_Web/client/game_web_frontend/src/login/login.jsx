@@ -12,13 +12,14 @@ const Login = () => {
     const [passWord, setPassword] = useState('');
     const dispatch = useDispatch();
     const alert = useAlert();
-    const handleLogin = ()=> {
+    const handleLogin =  (e)=> {
+        e.preventDefault();
         const loginRequest = {
             userName,
             passWord
         }
         console.log(loginRequest);
-        axios.post("localhost:8080/authenticate/login", loginRequest
+        axios.post("http://localhost:8080/authenticate/login", loginRequest
         ).then(res => {
             if(res.status === 200){
                 const token = res.data.token;

@@ -70,6 +70,7 @@ public class SecurityConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/game/**").allowedOrigins("*");
                 registry.addMapping("/user/**").allowedOrigins("*");
+                registry.addMapping("/authenticate/**").allowedOrigins("*");
             }
         };
     }
