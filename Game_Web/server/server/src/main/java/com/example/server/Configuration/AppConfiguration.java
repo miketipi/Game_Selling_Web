@@ -40,7 +40,8 @@ public class AppConfiguration {
 
     @Autowired
     public UserService userService;
-
+//O day da set user detailservice la customuserdetailservice
+    //Vi vay nen userService cua ta se co ham load by username -> tra ve 1 customUserDetail -> co ham lay password de so sanh
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
