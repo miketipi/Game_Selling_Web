@@ -6,6 +6,7 @@ import { setUser } from "../reducers/userReducer";
 import Cookies from "js-cookie";
 import {useAlert} from "react-alert";
 import './login.css';
+import { Card } from "react-bootstrap";
 const Login = () => {
     const navigate = useNavigate();
     const [userName, setUsername] = useState('');
@@ -50,7 +51,7 @@ const Login = () => {
         setPassword(event.target.value);
       };
     return(
-<div className="login-container">
+<Card className="login-container">
       <h2>Đăng nhập</h2>
       <form className="login-form">
         <div className="input-group">
@@ -77,7 +78,7 @@ const Login = () => {
         </div>
         <button onClick  = {handleLogin}  className="login-button">Đăng nhập</button>
       </form>
-    </div>
+    </Card>
     );
 }
 export default Login;

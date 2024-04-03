@@ -4,6 +4,9 @@ import com.example.server.Models.Comments;
 import com.example.server.Models.Game;
 import com.example.server.Repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -64,5 +67,12 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<Comments> getAllCommentsByProductId(Long id) {
         return commentsService.getAllCommentsByProduct(id);
+    }
+
+    @Override
+    public List<Game> getAllGameByPage(Integer page, Integer offset, String sortBy) {
+        Pageable paging = PageRequest.of(page,offset, Sort.by(sortBy));
+        List<Game> pagedResult =  gameRepository.findAll(paging).getContent();
+        return pagedResult;
     }
 }

@@ -5,6 +5,7 @@ import com.example.server.DTO.ModifyGameDTO;
 import com.example.server.Models.Game;
 import com.example.server.Service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -24,6 +25,12 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
+    @GetMapping(value = "/page")
+    @ResponseBody
+    public ResponseEntity<List<Game>> getGameByPage(@RequestParam(defaultValue = "0", required = false) Integer page, @RequestParam(defaultValue = "10",required = false) Integer offSet, @RequestParam(defaultValue = "productId") String sortBy){
+        List<Game> list = gameService.getAllGameByPage(page, offSet, sortBy);
+        return ResponseEntity.ok(list);
+    }
     @GetMapping(value = "/all")
     @ResponseBody
     List<Game> getAll() {

@@ -58,7 +58,10 @@ const SignUp = () => {
         <Col md={6}>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formUserName">
+              <Row>
               <Form.Label>Tên đăng nhập</Form.Label>
+              </Row>
+              <Row>
               <Form.Control 
                 type="text" 
                 placeholder="Nhập tên đăng nhập" 
@@ -66,11 +69,11 @@ const SignUp = () => {
                 value={formData.userName} 
                 onChange={handleChange} 
                 required 
-              />
+              /></Row>
             </Form.Group>
             <Form.Group controlId="formRealName">
-              <Form.Label>Tên thật</Form.Label>
-              <Form.Control 
+              <Row><Form.Label>Tên thật</Form.Label></Row>
+              <Row><Form.Control 
                 type="text" 
                 placeholder="Nhập tên thật" 
                 name="realName" 
@@ -78,9 +81,13 @@ const SignUp = () => {
                 onChange={handleChange} 
                 required 
               />
+              </Row>
             </Form.Group>
             <Form.Group controlId="formPassword">
+              <Row>
               <Form.Label>Mật khẩu</Form.Label>
+              </Row>
+              <Row>
               <Form.Control 
                 type="password" 
                 placeholder="Nhập mật khẩu" 
@@ -89,10 +96,12 @@ const SignUp = () => {
                 onChange={handleChange} 
                 required 
               />
+              </Row>
             </Form.Group>
 
             <Form.Group controlId="formAddress">
-              <Form.Label>Địa chỉ</Form.Label>
+              <Row><Form.Label>Địa chỉ</Form.Label></Row>
+              <Row>
               <Form.Control 
                 type="text" 
                 placeholder="Nhập địa chỉ" 
@@ -101,10 +110,13 @@ const SignUp = () => {
                 onChange={handleChange} 
                 required 
               />
+              </Row>
             </Form.Group>
 
             <Form.Group controlId="formPhone">
-              <Form.Label>Điện thoại</Form.Label>
+              <Row>
+              <Form.Label>Điện thoại</Form.Label></Row>
+              <Row>
               <Form.Control 
                 type="tel" 
                 placeholder="Nhập số điện thoại" 
@@ -113,11 +125,13 @@ const SignUp = () => {
                 onChange={handleChange} 
                 required 
               />
+              </Row>
             </Form.Group>
-
+<Row>
             <Button variant="primary" type="submit">
               Đăng ký
             </Button>
+            </Row>
           </Form>
         </Col>
       </Row>

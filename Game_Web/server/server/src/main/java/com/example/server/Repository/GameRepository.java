@@ -2,6 +2,7 @@ package com.example.server.Repository;
 
 import com.example.server.Models.Game;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -50,5 +51,5 @@ public interface GameRepository  extends JpaRepository <Game,Long> {
 //    @Modifying
 //    @Transactional
 //    @Query(value = "update game \n" + "set ", nativeQuery = true)
-
+//    List<Game> gamePage(Pageable pageable);
 }

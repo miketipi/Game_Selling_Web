@@ -25,4 +25,6 @@ public interface GameService {
     void updateGame(Long gameTypeId, String gameName, BigDecimal gamePrice, String gameImage, Float gameRating, String gameStatus, Long platformId, String gameVersion, Integer gameDownloaded, Long publisherId, Long productId);
 
     List<Comments> getAllCommentsByProductId(Long id);
+
+    List<Game> getAllGameByPage(Integer page, Integer offset, String sortBy);
 }
