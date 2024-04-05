@@ -28,6 +28,7 @@ public class GameController {
     @GetMapping(value = "/page")
     @ResponseBody
     public ResponseEntity<List<Game>> getGameByPage(@RequestParam(defaultValue = "0", required = false) Integer page, @RequestParam(defaultValue = "10",required = false) Integer offSet, @RequestParam(defaultValue = "productId") String sortBy){
+        logger.info("Dang lay thong tin page so : " + page + ", offset :" + offSet + ", voi dieu kien la : " + sortBy);
         List<Game> list = gameService.getAllGameByPage(page, offSet, sortBy);
         return ResponseEntity.ok(list);
     }
@@ -92,5 +93,15 @@ public class GameController {
     void updateGame(@RequestBody ModifyGameDTO modifyGameDTO) {
         logger.info("Dang update game voi gameId la : " + modifyGameDTO.getProductId());
         gameService.updateGame(modifyGameDTO.getGameTypeId(), modifyGameDTO.getGameName(), modifyGameDTO.getGamePrice(), modifyGameDTO.getGameImage(), modifyGameDTO.getGameRating(), modifyGameDTO.getGameStatus(), modifyGameDTO.getPlatformId(), modifyGameDTO.getGameVersion(), modifyGameDTO.getGameDownloaded(), modifyGameDTO.getPublisherId(), modifyGameDTO.getProductId());
+    }
+    @GetMapping("/count")
+    @ResponseBody
+   Integer getAllGameCount () {
+        Integer a = 0;
+        List<Game> b = gameService.getAllGame();
+        for(Game game : b){
+            a++;
+        }
+        return a;
     }
 }

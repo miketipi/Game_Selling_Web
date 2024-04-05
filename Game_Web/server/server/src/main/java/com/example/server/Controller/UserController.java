@@ -4,6 +4,7 @@ import com.example.server.DTO.OtherUserDTO;
 import com.example.server.Models.CustomUserDetails;
 import com.example.server.Models.User;
 import com.example.server.Service.UserService;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,11 +45,15 @@ public class UserController {
 
     @GetMapping(value = "/me")
     @ResponseBody
-    Optional<User> getMyInformation(@RequestHeader("Authorization") String header) {
+    Optional<User> getMyInformation(@RequestHeader("Authorization") String header) throws Exception {
         logger.info("Lay thong tin nguoi dung");
         logger.info("Noi dung header Authorization : " + header);
+        try{
         String jwtToken = header.substring(7); //bat dau cat jwt sau chuoi bearer
         Optional<User> a = userService.getMyInformation(jwtToken);
-        return a;
+        return a;}catch (MalformedJwtException e){
+            System.out.println(e.getMessage());
+            return  null;
+        }
     }
 }
