@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +26,11 @@ public class UserController {
     public static Logger logger = Logger.getLogger("User");
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @GetMapping(value = "/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseBody
@@ -60,36 +64,59 @@ public class UserController {
 //
 //    }
 
-    @PostMapping(value = "/me")
-    @ResponseBody
-    ResponseEntity<SignUpResponseDTO> modifyUser(@RequestBody ModifyUserDTO modifyUserDTO) {
-        logger.info("Dang thay doi thong tin nguoi dung co id : " + modifyUserDTO.getUserId() + modifyUserDTO.getUserName() +modifyUserDTO.getPhone() + modifyUserDTO.getAddress() + modifyUserDTO.getRealName());
-        Boolean result = userService.updateUser(modifyUserDTO);
+//
+@PostMapping(value = "/me")
+@ResponseBody
+ResponseEntity<String> modifyUser(@RequestBody ModifyUserDTO modifyUserDTO) {
+    logger.info("Dang thay doi thong tin nguoi dung co id : " + modifyUserDTO.getUserId() + modifyUserDTO.getUserName() + modifyUserDTO.getPhone() + modifyUserDTO.getAddress() + modifyUserDTO.getRealName());
+    Boolean result = userService.updateUser(modifyUserDTO);
 //        System.out.println(result);
-        if (result == true){
-            System.out.println("Ture");
-            User afterModified = userService.findUserByName(modifyUserDTO.getUserName()).get();
-//            System.out.println(afterModified.getUser_name());
-//            System.out.println(afterModified.getPass_word());
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(afterModified.getUser_name(),modifyUserDTO.getPassWord()));
-            SignUpResponseDTO newUser = userService.login(LoginRequestDTO.builder().userName(afterModified.getUser_name()).passWord(modifyUserDTO.getPassWord()).build());
-            return ResponseEntity.ok(newUser);
-        }
-        return ResponseEntity.badRequest().body(SignUpResponseDTO.builder().build());
-        //Sau khi xong se cho logout va bat dang nhap lai
+    if (result == true) {
 
+        return ResponseEntity.ok("Thay doi thong tin thanh cong");
     }
+    return ResponseEntity.badRequest().body("Thay doi thong tin khong thanh cong");
+    //Sau khi xong se cho logout va bat dang nhap lai
 
-    @PostMapping("/me/password")
-    @ResponseBody
-    ResponseEntity<Boolean> changePassword(UpdatePasswordDTO updatePasswordDTO){
-        logger.info("Dang thay doi mat khau nguoi dung co id: " + updatePasswordDTO);
-        Boolean result = userService.updatePassword(updatePasswordDTO);
-        if(result == true) return  ResponseEntity.ok(result);
-        else return  ResponseEntity.badRequest().body(false);
+}
 
-    }
+//    @PostMapping("/me/password")
+//    @ResponseBody
+//    ResponseEntity<SignUpResponseDTO> changePassword(@RequestBody UpdatePasswordDTO updatePasswordDTO) throws Exception {
+//        logger.info("Dang thay doi mat khau nguoi dung co id: " + updatePasswordDTO);
+//        User beforeEdited = userService.getUserById(updatePasswordDTO.getUserId()).get();
+//        System.out.println("Mat khau truoc khi doi : " + beforeEdited.getPass_word());
+//        Boolean result = userService.updatePassword(updatePasswordDTO);
+//        if (result == true) {
+//            System.out.println("True");
+//            User afterEdited = userService.findUserByName(beforeEdited.getUser_name()).get();
+//            System.out.println(afterEdited.getUser_name());
+//            System.out.println(updatePasswordDTO.getNewPassword());
+//            System.out.println("Mat khau sau khi doi la : " + afterEdited.getPass_word());
+//            try {
+//                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(afterEdited.getUser_name(), updatePasswordDTO.getNewPassword()));
+//                SignUpResponseDTO newUser = userService.login(LoginRequestDTO.builder().userName(afterEdited.getUser_name()).passWord(updatePasswordDTO.getNewPassword()).build());
+//
+//
+//                return ResponseEntity.ok(newUser);
+//            } catch (AuthenticationException e) {
+//                System.out.println(e);
+//            }
+//        } else return ResponseEntity.badRequest().body(SignUpResponseDTO.builder().build());
+//        return null;
+//    }
+    //jwt khong lien quan den mat khau, du cho co doi mat khau thi jwt van hoat dong duoc bth => ko can quan tam den thay doi token
+@PostMapping("/me/password")
+@ResponseBody
+ResponseEntity<String> changePassword(@RequestBody UpdatePasswordDTO updatePasswordDTO) throws Exception {
+    logger.info("Dang thay doi mat khau nguoi dung co id: " + updatePasswordDTO);
+    Boolean result = userService.updatePassword(updatePasswordDTO);
+    if (result == true) {
 
+            return ResponseEntity.ok("Thay doi mat khau thanh cong");
+
+    } else return ResponseEntity.badRequest().body("Thay doi mat khau khong thanh cong");
+}
     @GetMapping(value = "/me")
     @ResponseBody
     Optional<User> getMyInformation(@RequestHeader("Authorization") String header) throws Exception {

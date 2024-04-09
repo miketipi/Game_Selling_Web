@@ -119,17 +119,28 @@ public class UserServiceImpl implements UserService {
         userRepository.updatePassword(passwordEncoder.encode(updatePasswordDTO.getNewPassword()), updatePasswordDTO.getUserId());
         return true;
     }
-
+    //Transactional trong 1 ham lon se phai thuc hien thanh cong hoac chay het 1 vong moi duoc commit
+//Truong hop cap nhat user van cap nhat duoc vi transaction chua he thay doi password va username, nen van co the authenticate dc
+//    Truong hop cap nhat mat khau thi do transactional chua commit thay doi tren tang code => do do khi lay thong tin no van lay pass cu trong khi authenticate thi su dung pass moi da dc cap nhat duoi csdl
+//    Transactional tang code ko lien quan voi thong tin da dc cap nhat duoi db
     @Override
     public Boolean updatePassword(UpdatePasswordDTO updatePasswordDTO) {
+//        System.out.println(updatePasswordDTO.getUserId());
         Optional<User> fromDb = userRepository.findById(updatePasswordDTO.getUserId());
-        if (fromDb.get().getPass_word().equals(updatePasswordDTO.getOldPassword())) {
-            if (!fromDb.get().getPass_word().equals(updatePasswordDTO.getNewPassword())) {
-                userRepository.updatePassword(updatePasswordDTO.getNewPassword(), updatePasswordDTO.getUserId());
+        System.out.println("User Service1 : " + fromDb.get().getPass_word());
+//        System.out.println(fromDb.get().getUser_name());
+//        System.out.println(fromDb.get().getPass_word());
+//        System.out.println(passwordEncoder.encode(updatePasswordDTO.getOldPassword()));
+//        System.out.println(updatePasswordDTO.getOldPassword());
+//        if (fromDb.get().getPass_word().equals(passwordEncoder.encode(updatePasswordDTO.getOldPassword()))) {
+//            if (!fromDb.get().getPass_word().equals(passwordEncoder.encode(updatePasswordDTO.getNewPassword()))) {
+                userRepository.updatePassword(passwordEncoder.encode(updatePasswordDTO.getNewPassword()), updatePasswordDTO.getUserId());
+        Optional<User> fromDbb = userRepository.findById(updatePasswordDTO.getUserId());
+        System.out.println("User Service : " + fromDbb.get().getPass_word());
                 return true;
-            }
-        }
-        return false;
+//            }
+//        }
+//        return false;
     }
 
     @Override
