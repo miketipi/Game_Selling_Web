@@ -15,4 +15,5 @@ public class ModifyUserDTO {
     private String phone;
     private String address;
     private Long userId;
+    private String passWord;
 }

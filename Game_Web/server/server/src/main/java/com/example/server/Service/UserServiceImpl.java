@@ -93,18 +93,20 @@ public class UserServiceImpl implements UserService {
         else {
 //        Boi vi tren frontend se lay trong redux store(userState) ra nen la
             userRepository.updateUser(modifyUserDTO.getUserName(), modifyUserDTO.getRealName(), modifyUserDTO.getPhone(), modifyUserDTO.getAddress(), modifyUserDTO.getUserId());
- return true;
+            return true;
         }
     }
+
     @Override
     public Boolean updateUser(ModifyUserDTO modifyUserDTO) {
         //xac nhan jwt va nguoi dung
-Optional<User> oldInformation = userRepository.findByName(modifyUserDTO.getUserName());
-if (oldInformation.isEmpty()) return false;
-
+        Optional<User> newInformation = userRepository.findByName(modifyUserDTO.getUserName());
+    //    System.out.println(newInformation.get().getUser_name());
+        if (!newInformation.isEmpty()) return false;
+       // System.out.println(newInformation.get().getUser_name());
 //        Boi vi tren frontend se lay trong redux store(userState) ra nen la
-            userRepository.updateUser(modifyUserDTO.getUserName(), modifyUserDTO.getRealName(), modifyUserDTO.getPhone(), modifyUserDTO.getAddress(), modifyUserDTO.getUserId());
-            return true;
+        userRepository.updateUser(modifyUserDTO.getUserName(), modifyUserDTO.getRealName(), modifyUserDTO.getPhone(), modifyUserDTO.getAddress(), modifyUserDTO.getUserId());
+        return true;
     }
 
     @Override
@@ -114,19 +116,20 @@ if (oldInformation.isEmpty()) return false;
         Optional<User> me = userRepository.findByName(username);
         if (me.isEmpty() == true) return false;
         if (me.get().getPass_word().equals(passwordEncoder.encode(updatePasswordDTO.getNewPassword()))) return false;
-        userRepository.updatePassword(passwordEncoder.encode(updatePasswordDTO.getNewPassword()),updatePasswordDTO.getUserId());
+        userRepository.updatePassword(passwordEncoder.encode(updatePasswordDTO.getNewPassword()), updatePasswordDTO.getUserId());
         return true;
     }
 
     @Override
     public Boolean updatePassword(UpdatePasswordDTO updatePasswordDTO) {
         Optional<User> fromDb = userRepository.findById(updatePasswordDTO.getUserId());
-        if(fromDb.get().getPass_word().equals(updatePasswordDTO.getOldPassword())){
-            if (!fromDb.get().getPass_word().equals(updatePasswordDTO.getNewPassword())){
+        if (fromDb.get().getPass_word().equals(updatePasswordDTO.getOldPassword())) {
+            if (!fromDb.get().getPass_word().equals(updatePasswordDTO.getNewPassword())) {
                 userRepository.updatePassword(updatePasswordDTO.getNewPassword(), updatePasswordDTO.getUserId());
                 return true;
             }
-        }return false;
+        }
+        return false;
     }
 
     @Override

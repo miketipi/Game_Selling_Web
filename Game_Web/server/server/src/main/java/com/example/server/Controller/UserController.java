@@ -1,8 +1,6 @@
 package com.example.server.Controller;
 
-import com.example.server.DTO.ModifyUserDTO;
-import com.example.server.DTO.OtherUserDTO;
-import com.example.server.DTO.UpdatePasswordDTO;
+import com.example.server.DTO.*;
 import com.example.server.Models.Comments;
 import com.example.server.Models.CustomUserDetails;
 import com.example.server.Models.User;
@@ -11,6 +9,8 @@ import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +25,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
     @GetMapping(value = "/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseBody
@@ -60,20 +62,29 @@ public class UserController {
 
     @PostMapping(value = "/me")
     @ResponseBody
-    ResponseEntity<Boolean> modifyUser(@RequestBody ModifyUserDTO modifyUserDTO) {
-        logger.info("Dang thay doi thong tin nguoi dung co id : " + modifyUserDTO.getUserId());
+    ResponseEntity<SignUpResponseDTO> modifyUser(@RequestBody ModifyUserDTO modifyUserDTO) {
+        logger.info("Dang thay doi thong tin nguoi dung co id : " + modifyUserDTO.getUserId() + modifyUserDTO.getUserName() +modifyUserDTO.getPhone() + modifyUserDTO.getAddress() + modifyUserDTO.getRealName());
         Boolean result = userService.updateUser(modifyUserDTO);
-        if (result == true) return ResponseEntity.ok(result);
-        else return ResponseEntity.badRequest().body(false);
+//        System.out.println(result);
+        if (result == true){
+            System.out.println("Ture");
+            User afterModified = userService.findUserByName(modifyUserDTO.getUserName()).get();
+//            System.out.println(afterModified.getUser_name());
+//            System.out.println(afterModified.getPass_word());
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(afterModified.getUser_name(),modifyUserDTO.getPassWord()));
+            SignUpResponseDTO newUser = userService.login(LoginRequestDTO.builder().userName(afterModified.getUser_name()).passWord(modifyUserDTO.getPassWord()).build());
+            return ResponseEntity.ok(newUser);
+        }
+        return ResponseEntity.badRequest().body(SignUpResponseDTO.builder().build());
+        //Sau khi xong se cho logout va bat dang nhap lai
 
     }
 
     @PostMapping("/me/password")
     @ResponseBody
-    ResponseEntity<Boolean> changePassword(@RequestHeader("Authorization") String header, UpdatePasswordDTO updatePasswordDTO){
-        String jwt = header.substring(7);
+    ResponseEntity<Boolean> changePassword(UpdatePasswordDTO updatePasswordDTO){
         logger.info("Dang thay doi mat khau nguoi dung co id: " + updatePasswordDTO);
-        Boolean result = userService.updatePassword(updatePasswordDTO,jwt);
+        Boolean result = userService.updatePassword(updatePasswordDTO);
         if(result == true) return  ResponseEntity.ok(result);
         else return  ResponseEntity.badRequest().body(false);
 
