@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Card, Pagination, Dropdown, Container } from 'react-bootstrap';
 import axios from 'axios';
 import { Center } from '@chakra-ui/react';
-
 const categories = [
   // Mảng chứa các loại game
   // 'Category 1',

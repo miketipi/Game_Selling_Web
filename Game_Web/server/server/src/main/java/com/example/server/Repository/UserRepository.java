@@ -6,9 +6,11 @@ import com.example.server.Models.CustomUserDetails;
 import com.example.server.Models.Role;
 import com.example.server.Models.User;
 import com.example.server.Service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +26,16 @@ public interface UserRepository extends JpaRepository <User,Long>{
 
     @Query(value = "select * from users where user_name = :name", nativeQuery = true)
     Optional<User> findByName(@Param("name") String name);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update users \n" + "set user_name = :userName, real_name = :realName, phone = :phone, address = :address \n" + "where user_id = :userId", nativeQuery = true)
+    void updateUser(@Param("userName") String userName, @Param("realName") String realName, @Param("phone") String phone, @Param("address") String address, @Param("userId") Long userId);
+
+    @Modifying
+    @Transactional
+    @Query(value =  "update users \n" + "set pass_word = :passWord \n" + "where user_id = :userId", nativeQuery = true)
+    void updatePassword (@Param("passWord") String passWord, @Param("userId") Long userId);
 
     @Query(value = "insert into users(user_name, real_name, pass_word, address, phone) values (:userName, :realName, :passWord, :address, :phone)", nativeQuery = true)
     Optional<User> addUser(@Param("userName") String userName, @Param("realName") String realName, @Param("passWord") String passWord, @Param("address") String address, @Param("phone") String phone);

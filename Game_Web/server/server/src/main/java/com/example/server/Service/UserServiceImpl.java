@@ -1,11 +1,11 @@
 package com.example.server.Service;
 
-import com.example.server.DTO.LoginRequestDTO;
-import com.example.server.DTO.SignUpRequestDTO;
-import com.example.server.DTO.SignUpResponseDTO;
+import com.example.server.DTO.*;
+import com.example.server.Models.Comments;
 import com.example.server.Models.CustomUserDetails;
 import com.example.server.Models.Role;
 import com.example.server.Models.User;
+import com.example.server.Repository.CommentsRepository;
 import com.example.server.Repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,9 @@ public class UserServiceImpl implements UserService {
     private JwtService jwtService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CommentsRepository commentsRepository;
 
     @Override
     public List<User> getAllUser() {
@@ -69,6 +72,61 @@ public class UserServiceImpl implements UserService {
         String username = jwtService.extractUserName(jwt);
         Optional<User> me = userRepository.findByName(username);
         return me;
+    }
+
+    @Override
+    public List<Comments> getAllCommentsByUser(String jwt) {
+        if (!jwtService.isValidateToken(jwt) || jwtService.isTokenExpired(jwt)) return null;
+        String username = jwtService.extractUserName(jwt);
+        Optional<User> me = userRepository.findByName(username);
+        List<Comments> ourComments = commentsRepository.getCommentsByUser(me.get().getUserId());
+        return ourComments;
+    }
+
+    @Override
+    public Boolean updateUser(ModifyUserDTO modifyUserDTO, String jwt) {
+        //xac nhan jwt va nguoi dung
+        if (!jwtService.isValidateToken(jwt) || jwtService.isTokenExpired(jwt)) return false;
+        String username = jwtService.extractUserName(jwt);
+        Optional<User> me = userRepository.findByName(username);
+        if (me.isEmpty() == true) return false;
+        else {
+//        Boi vi tren frontend se lay trong redux store(userState) ra nen la
+            userRepository.updateUser(modifyUserDTO.getUserName(), modifyUserDTO.getRealName(), modifyUserDTO.getPhone(), modifyUserDTO.getAddress(), modifyUserDTO.getUserId());
+ return true;
+        }
+    }
+    @Override
+    public Boolean updateUser(ModifyUserDTO modifyUserDTO) {
+        //xac nhan jwt va nguoi dung
+Optional<User> oldInformation = userRepository.findByName(modifyUserDTO.getUserName());
+if (oldInformation.isEmpty()) return false;
+
+//        Boi vi tren frontend se lay trong redux store(userState) ra nen la
+            userRepository.updateUser(modifyUserDTO.getUserName(), modifyUserDTO.getRealName(), modifyUserDTO.getPhone(), modifyUserDTO.getAddress(), modifyUserDTO.getUserId());
+            return true;
+    }
+
+    @Override
+    public Boolean updatePassword(UpdatePasswordDTO updatePasswordDTO, String jwt) {
+        if (!jwtService.isValidateToken(jwt) || jwtService.isTokenExpired(jwt)) return false;
+        String username = jwtService.extractUserName(jwt);
+        Optional<User> me = userRepository.findByName(username);
+        if (me.isEmpty() == true) return false;
+        if (me.get().getPass_word().equals(passwordEncoder.encode(updatePasswordDTO.getNewPassword()))) return false;
+        userRepository.updatePassword(passwordEncoder.encode(updatePasswordDTO.getNewPassword()),updatePasswordDTO.getUserId());
+        return true;
+    }
+
+    @Override
+    public Boolean updatePassword(UpdatePasswordDTO updatePasswordDTO) {
+        Optional<User> fromDb = userRepository.findById(updatePasswordDTO.getUserId());
+        if(fromDb.get().getPass_word().equals(updatePasswordDTO.getOldPassword())){
+            if (!fromDb.get().getPass_word().equals(updatePasswordDTO.getNewPassword())){
+                userRepository.updatePassword(updatePasswordDTO.getNewPassword(), updatePasswordDTO.getUserId());
+                return true;
+            }
+        }return false;
     }
 
     @Override

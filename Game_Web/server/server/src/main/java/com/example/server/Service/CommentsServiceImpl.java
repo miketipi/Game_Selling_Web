@@ -16,7 +16,7 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public List<Comments> getAllCommentsByProduct(Long productId) {
-        List<Comments> getAllComments = commentsRepository.findAllById(Collections.singleton(productId));
+        List<Comments> getAllComments = commentsRepository.getCommentsByProduct(productId);
         List<Comments> undeletedComments = new ArrayList<>();
         for (Comments a : getAllComments) {
             if (a.getDeleted() == false) {

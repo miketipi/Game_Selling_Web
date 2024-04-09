@@ -2,7 +2,9 @@ package com.example.server.Controller;
 
 import com.example.server.DTO.InsertGameDTO;
 import com.example.server.DTO.ModifyGameDTO;
+import com.example.server.Models.Comments;
 import com.example.server.Models.Game;
+import com.example.server.Service.CommentsService;
 import com.example.server.Service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +27,25 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
+    @Autowired
+    private CommentsService commentsService;
+
+    @GetMapping("/{id}/comments")
+    @ResponseBody
+    public ResponseEntity<List<Comments>> getAllCommentsByGame(@PathVariable("id") Long id) {
+        System.out.println(id);
+        System.out.println(commentsService.getAllCommentsByProduct(id));
+        return ResponseEntity.ok(commentsService.getAllCommentsByProduct(id));
+    }
+
     @GetMapping(value = "/page")
     @ResponseBody
-    public ResponseEntity<List<Game>> getGameByPage(@RequestParam(defaultValue = "0", required = false) Integer page, @RequestParam(defaultValue = "10",required = false) Integer offSet, @RequestParam(defaultValue = "productId") String sortBy){
+    public ResponseEntity<List<Game>> getGameByPage(@RequestParam(defaultValue = "0", required = false) Integer page, @RequestParam(defaultValue = "10", required = false) Integer offSet, @RequestParam(defaultValue = "productId") String sortBy) {
         logger.info("Dang lay thong tin page so : " + page + ", offset :" + offSet + ", voi dieu kien la : " + sortBy);
         List<Game> list = gameService.getAllGameByPage(page, offSet, sortBy);
         return ResponseEntity.ok(list);
     }
+
     @GetMapping(value = "/all")
     @ResponseBody
     List<Game> getAll() {
@@ -94,12 +108,13 @@ public class GameController {
         logger.info("Dang update game voi gameId la : " + modifyGameDTO.getProductId());
         gameService.updateGame(modifyGameDTO.getGameTypeId(), modifyGameDTO.getGameName(), modifyGameDTO.getGamePrice(), modifyGameDTO.getGameImage(), modifyGameDTO.getGameRating(), modifyGameDTO.getGameStatus(), modifyGameDTO.getPlatformId(), modifyGameDTO.getGameVersion(), modifyGameDTO.getGameDownloaded(), modifyGameDTO.getPublisherId(), modifyGameDTO.getProductId());
     }
+
     @GetMapping("/count")
     @ResponseBody
-   Integer getAllGameCount () {
+    Integer getAllGameCount() {
         Integer a = 0;
         List<Game> b = gameService.getAllGame();
-        for(Game game : b){
+        for (Game game : b) {
             a++;
         }
         return a;

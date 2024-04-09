@@ -9,6 +9,7 @@ import com.example.server.Service.OrderService;
 import com.example.server.Service.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,10 @@ public class CheckoutController {
     @Autowired
     private OrderService orderService;
 
+//    @Value("${STRIPE_PUBLIC_KEY}")
+//    private String stripePublicKey;
+
+    
     //Request body nen them 1 doi tuong bao gom nhieu doi tuong nho hon, chu khong don 1 luc nhieu bien, chi truyen 1 DTO
     @PostMapping("/checkout")
     void checkOut(@RequestBody CheckoutInfoDTO checkoutInfoDTO) throws UnsupportedEncodingException {

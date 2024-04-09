@@ -1,8 +1,7 @@
 package com.example.server.Service;
 
-import com.example.server.DTO.LoginRequestDTO;
-import com.example.server.DTO.SignUpRequestDTO;
-import com.example.server.DTO.SignUpResponseDTO;
+import com.example.server.DTO.*;
+import com.example.server.Models.Comments;
 import com.example.server.Models.CustomUserDetails;
 import com.example.server.Models.User;
 import org.springframework.beans.factory.ObjectProvider;
@@ -24,4 +23,10 @@ public interface UserService extends UserDetailsService {
     public SignUpResponseDTO login(LoginRequestDTO loginRequestDTO);
 
     Optional<User> getMyInformation(String jwt);
+
+    List<Comments> getAllCommentsByUser(String jwt);
+    Boolean updateUser(ModifyUserDTO modifyUserDTO , String jwt);
+    Boolean updateUser(ModifyUserDTO modifyUserDTO);
+    Boolean updatePassword(UpdatePasswordDTO updatePasswordDTO, String jwt);
+    Boolean updatePassword(UpdatePasswordDTO updatePasswordDTO);
 }
