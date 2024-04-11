@@ -1,8 +1,10 @@
 package com.example.server.Repository;
 
 import com.example.server.Models.Orders;
+import jakarta.transaction.Transactional;
 import org.hibernate.query.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -19,6 +21,8 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
         return b;
     }
 
+    @Modifying
+    @Transactional
     @Query(value = "update orders set status = true where order_id = :id", nativeQuery = true)
     void updateByCartIdOrderByDeleted(@Param("id") Long id);
 }

@@ -1,12 +1,12 @@
 package com.example.server.Controller;
 
 import com.example.server.DTO.CheckoutInfoDTO;
+import com.example.server.DTO.CreateOrderDTO;
 import com.example.server.DTO.UpdateOrderDTO;
 import com.example.server.DTO.VNPaymentReturnDTO;
-import com.example.server.Service.CartService;
-import com.example.server.Service.JwtService;
-import com.example.server.Service.OrderService;
-import com.example.server.Service.VNPayService;
+import com.example.server.Models.User;
+import com.example.server.Repository.UserRepository;
+import com.example.server.Service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,14 +32,22 @@ public class CheckoutController {
     @Autowired
     private OrderService orderService;
 
-//    @Value("${STRIPE_PUBLIC_KEY}")
-//    private String stripePublicKey;
+    @Value("${STRIPE_PUBLIC_KEY}")
+    private String stripePublicKey;
 
+    @Autowired
+    private UserService userService;
     
     //Request body nen them 1 doi tuong bao gom nhieu doi tuong nho hon, chu khong don 1 luc nhieu bien, chi truyen 1 DTO
     @PostMapping("/checkout")
     void checkOut(@RequestBody CheckoutInfoDTO checkoutInfoDTO) throws UnsupportedEncodingException {
+//        String jwt = token.substring(7);
+//        String userName = jwtService.extractUserName(jwt);
+//        User me = userService.findUserByName(userName).get();
+
+//        orderService.createOrders(CreateOrderDTO.builder().userId(me.getUserId()).total(checkoutInfoDTO.getTotal()).quantity(checkoutInfoDTO.).build())
         vnPayService.createOrderUrl(checkoutInfoDTO.getTotal(), checkoutInfoDTO.getOrderInfo(), checkoutInfoDTO.getReturnUrl());
+
     }
     //Se co mot yeu cau tu frontend xuong nham yeu cau xac nhan thong tin va cap nhat vao co so du lieu
 
@@ -54,6 +62,7 @@ public class CheckoutController {
         updateOrderDTO.setOrderStatus(paymentStatus == 1 ? true : false);
         String jwt = header.substring(7);
         String username = jwtService.extractUserName(jwt);
+//        CreateOrderDTO a = CreateOrderDTO.builder().userId(userService.findUserByName(username).get().getUserId()).quantity().build();
         if (cartService.deleteCartByName(username)) {
             if (orderService.updateOrderStatus(updateOrderDTO.getId())) {
                 res.setUpdateDB(true);

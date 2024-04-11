@@ -46,9 +46,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(a -> a
                         .requestMatchers(HttpMethod.GET, "/game/**", "/gametype/**", "/publisher/**", "/platform/**", "/user/{id}")
                         .permitAll()
-                        .requestMatchers(HttpMethod.POST,"user/add", "user/delete", "user/me", "user/me/password", "/authenticate/signup", "/authenticate/login", "/checkout/checkout")
+                        .requestMatchers(HttpMethod.POST, "/authenticate/signup", "/authenticate/login", "/checkout/checkout")
                         .permitAll()
-                        .requestMatchers(HttpMethod.POST, "/comments/create", "/cart/add", "/cart/delete", "/fav/add", "/fav/delete")
+                        .requestMatchers(HttpMethod.POST,"/cart/order","/user/add", "user/delete", "/user/me", "/user/me/password" ,"/comments/create", "/cart/add", "/cart/delete", "/fav/add", "/fav/delete")
                         //.permitAll()
                         .authenticated()
                         .requestMatchers(HttpMethod.GET, "/user/all", "/cart/me", "/fav/me", "user/me", "cart/all", "user/me/comments")

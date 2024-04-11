@@ -3,12 +3,14 @@ package com.example.server.Controller;
 import com.example.server.DTO.AddCartItemDTO;
 import com.example.server.DTO.AllCartInformationDTO;
 import com.example.server.DTO.CartResponseDTO;
+import com.example.server.DTO.CreateOrderDTO;
 import com.example.server.Models.Cart;
 import com.example.server.Models.CartItem;
 import com.example.server.Repository.CartRepository;
 import com.example.server.Repository.UserRepository;
 import com.example.server.Service.CartItemService;
 import com.example.server.Service.JwtService;
+import com.example.server.Service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,9 @@ public class CartController {
     private UserRepository userRepository;
     @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
+    private OrderService orderService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/all")
@@ -69,6 +74,10 @@ public class CartController {
         cartItemService.addCartItem(cartId, addCartItemDTO.getProductId());
     }
 
+    @PostMapping("/order")
+    void createOrder(@RequestBody CreateOrderDTO createOrderDTO){
+        orderService.createOrders(createOrderDTO);
+    }
     @PostMapping("/delete")
     void deleteCartItem(@RequestHeader("Authorization") String header, @RequestBody AddCartItemDTO addCartItemDTO) {
         String jwt = header.substring(7);
