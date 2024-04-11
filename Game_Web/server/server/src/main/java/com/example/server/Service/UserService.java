@@ -29,4 +29,8 @@ public interface UserService extends UserDetailsService {
     Boolean updateUser(ModifyUserDTO modifyUserDTO);
     Boolean updatePassword(UpdatePasswordDTO updatePasswordDTO, String jwt);
     Boolean updatePassword(UpdatePasswordDTO updatePasswordDTO);
+
+    void softDelete(Long id);
+
+    Boolean addUser(AddUserDTO addUserDTO);
 }

@@ -44,6 +44,12 @@ public class UserController {
         return null;
     }
 
+    @PostMapping(value = "/delete")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    void softDelete(@RequestBody Long id){
+        userService.softDelete(id);
+    }
+
     @GetMapping(value = "/{id}")
     @ResponseBody
     OtherUserDTO getUserById(@PathVariable("id") Long id) {

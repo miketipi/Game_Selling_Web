@@ -101,9 +101,9 @@ public class UserServiceImpl implements UserService {
     public Boolean updateUser(ModifyUserDTO modifyUserDTO) {
         //xac nhan jwt va nguoi dung
         Optional<User> newInformation = userRepository.findByName(modifyUserDTO.getUserName());
-    //    System.out.println(newInformation.get().getUser_name());
+        //    System.out.println(newInformation.get().getUser_name());
         if (!newInformation.isEmpty()) return false;
-       // System.out.println(newInformation.get().getUser_name());
+        // System.out.println(newInformation.get().getUser_name());
 //        Boi vi tren frontend se lay trong redux store(userState) ra nen la
         userRepository.updateUser(modifyUserDTO.getUserName(), modifyUserDTO.getRealName(), modifyUserDTO.getPhone(), modifyUserDTO.getAddress(), modifyUserDTO.getUserId());
         return true;
@@ -119,6 +119,7 @@ public class UserServiceImpl implements UserService {
         userRepository.updatePassword(passwordEncoder.encode(updatePasswordDTO.getNewPassword()), updatePasswordDTO.getUserId());
         return true;
     }
+
     //Transactional trong 1 ham lon se phai thuc hien thanh cong hoac chay het 1 vong moi duoc commit
 //Truong hop cap nhat user van cap nhat duoc vi transaction chua he thay doi password va username, nen van co the authenticate dc
 //    Truong hop cap nhat mat khau thi do transactional chua commit thay doi tren tang code => do do khi lay thong tin no van lay pass cu trong khi authenticate thi su dung pass moi da dc cap nhat duoi csdl
@@ -134,13 +135,28 @@ public class UserServiceImpl implements UserService {
 //        System.out.println(updatePasswordDTO.getOldPassword());
 //        if (fromDb.get().getPass_word().equals(passwordEncoder.encode(updatePasswordDTO.getOldPassword()))) {
 //            if (!fromDb.get().getPass_word().equals(passwordEncoder.encode(updatePasswordDTO.getNewPassword()))) {
-                userRepository.updatePassword(passwordEncoder.encode(updatePasswordDTO.getNewPassword()), updatePasswordDTO.getUserId());
+        userRepository.updatePassword(passwordEncoder.encode(updatePasswordDTO.getNewPassword()), updatePasswordDTO.getUserId());
         Optional<User> fromDbb = userRepository.findById(updatePasswordDTO.getUserId());
         System.out.println("User Service : " + fromDbb.get().getPass_word());
-                return true;
+        return true;
 //            }
 //        }
 //        return false;
+    }
+
+    @Override
+    public void softDelete(Long id) {
+        userRepository.softDelete(id);
+    }
+
+    @Override
+    public Boolean addUser(AddUserDTO addUserDTO) {
+        Optional<User> check  = userRepository.findByName(addUserDTO.getUserName());
+        if (check.isEmpty()){
+            userRepository.addUser(addUserDTO.getUserName(), addUserDTO.getRealName(), addUserDTO.getPassWord(), addUserDTO.getAddress(), addUserDTO.getPhone());
+            return true;
+        }
+        return false;
     }
 
     @Override

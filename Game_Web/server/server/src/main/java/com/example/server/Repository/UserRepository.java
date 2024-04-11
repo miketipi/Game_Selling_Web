@@ -27,6 +27,10 @@ public interface UserRepository extends JpaRepository <User,Long>{
     @Query(value = "select * from users where user_name = :name", nativeQuery = true)
     Optional<User> findByName(@Param("name") String name);
 
+    @Query(value = "update users \n" + "set deleted = true \n" + "where user_id = :userId", nativeQuery = true)
+    void softDelete(@Param("userId") Long userId);
+
+
     @Modifying
     @Transactional
     @Query(value = "update users \n" + "set user_name = :userName, real_name = :realName, phone = :phone, address = :address \n" + "where user_id = :userId", nativeQuery = true)

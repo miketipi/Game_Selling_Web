@@ -19,6 +19,7 @@ const UserDetail = () => {
         }).then(res => {
             if (res.status === 200) {
                 const user = {
+                    userId : res.data.userId,
                     userName: res.data.user_name,
                     role: res.data.role,
                     realName: res.data.real_name,
@@ -29,4 +30,11 @@ const UserDetail = () => {
             }
         }).catch(e => console.log(e))
     }
+
+    const changeUserDetail = () => {
+        const request = {
+            userId: user
+        }
+    }
+    
 }
