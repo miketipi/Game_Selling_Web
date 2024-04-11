@@ -151,9 +151,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean addUser(AddUserDTO addUserDTO) {
+        System.out.println("089797");
+        System.out.println(addUserDTO.getUserName());
         Optional<User> check  = userRepository.findByName(addUserDTO.getUserName());
+        System.out.println(addUserDTO.getPassWord());
         if (check.isEmpty()){
-            userRepository.addUser(addUserDTO.getUserName(), addUserDTO.getRealName(), addUserDTO.getPassWord(), addUserDTO.getAddress(), addUserDTO.getPhone());
+            userRepository.addUser(addUserDTO.getUserName(), addUserDTO.getRealName(), passwordEncoder.encode(addUserDTO.getPassWord()), addUserDTO.getAddress(), addUserDTO.getPhone());
             return true;
         }
         return false;

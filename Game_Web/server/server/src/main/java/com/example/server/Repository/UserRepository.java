@@ -27,6 +27,8 @@ public interface UserRepository extends JpaRepository <User,Long>{
     @Query(value = "select * from users where user_name = :name", nativeQuery = true)
     Optional<User> findByName(@Param("name") String name);
 
+    @Modifying
+    @Transactional
     @Query(value = "update users \n" + "set deleted = true \n" + "where user_id = :userId", nativeQuery = true)
     void softDelete(@Param("userId") Long userId);
 
@@ -41,8 +43,10 @@ public interface UserRepository extends JpaRepository <User,Long>{
     @Query(value =  "update users \n" + "set pass_word = :passWord \n" + "where user_id = :userId", nativeQuery = true)
     void updatePassword (@Param("passWord") String passWord, @Param("userId") Long userId);
 
+    @Modifying
+    @Transactional
     @Query(value = "insert into users(user_name, real_name, pass_word, address, phone) values (:userName, :realName, :passWord, :address, :phone)", nativeQuery = true)
-    Optional<User> addUser(@Param("userName") String userName, @Param("realName") String realName, @Param("passWord") String passWord, @Param("address") String address, @Param("phone") String phone);
+    void addUser(@Param("userName") String userName, @Param("realName") String realName, @Param("passWord") String passWord, @Param("address") String address, @Param("phone") String phone);
 
     public default CustomUserDetails signup(SignUpRequestDTO signUpRequestDTO) {
         CustomUserDetails newUser = CustomUserDetails.builder().user(User.builder().user_name(signUpRequestDTO.getUserName()).real_name(signUpRequestDTO.getRealName()).role(Role.USER).phone(signUpRequestDTO.getPhone()).address(signUpRequestDTO.getAddress()).pass_word(signUpRequestDTO.getPassWord()).build()).build();

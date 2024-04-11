@@ -46,8 +46,18 @@ public class UserController {
 
     @PostMapping(value = "/delete")
     @PreAuthorize("hasAuthority('ADMIN')")
-    void softDelete(@RequestBody Long id){
+    ResponseEntity<String> softDelete(@RequestBody Long id){
         userService.softDelete(id);
+        return ResponseEntity.ok().body("Da soft delete thanh cong nguoi dung");
+    }
+
+    @PostMapping(value = "/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    ResponseEntity<String> addUserByAdmin(@RequestBody AddUserDTO addUserDTO){
+        Boolean result = userService.addUser(addUserDTO);
+        if (result == true){
+            return ResponseEntity.ok().body("Them nguoi dung thanh cong!");
+        } else return ResponseEntity.badRequest().body("Them khong thanh cong do da ton tai nguoi dung");
     }
 
     @GetMapping(value = "/{id}")
